@@ -125,4 +125,14 @@ class Participante
     {
         return $this->subgrupo;
     }
+    
+    /**
+     * Metodo toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+    	return $this->getNombre();
+    }
 }

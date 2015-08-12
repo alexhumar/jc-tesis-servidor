@@ -126,4 +126,14 @@ class Consigna
     {
         return $this->piezasARecolectar;
     }
+    
+    /**
+     * Metodo toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+    	return $this->getDescripcion();
+    }
 }

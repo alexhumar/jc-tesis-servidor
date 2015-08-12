@@ -162,4 +162,14 @@ class Posta
     {
         return $this->subgrupo;
     }
+    
+    /**
+     * Metodo toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+    	return 'Posta ' . $this->getId();
+    }
 }

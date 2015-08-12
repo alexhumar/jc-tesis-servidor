@@ -161,4 +161,14 @@ class Subgrupo
     {
         return $this->participantes;
     }
+    
+    /**
+     * Metodo toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+    	return $this->getNombre();
+    }
 }

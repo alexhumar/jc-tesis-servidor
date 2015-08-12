@@ -158,4 +158,14 @@ class Respuesta
     {
         return $this->subgrupoConsultado;
     }
+    
+    /**
+     * Metodo toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+    	return ($this->getAcuerdoPropuesta() ? 'De acuerdo: ' : 'En desacuerdo: ') . $this->getJustificacion();
+    }
 }

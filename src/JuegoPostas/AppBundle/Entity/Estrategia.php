@@ -92,4 +92,14 @@ class Estrategia
     {
         return $this->descripcion;
     }
+    
+    /**
+     * Metodo toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+    	return $this->getNombre() . ' - ' . $this->getDescripcion();
+    }
 }

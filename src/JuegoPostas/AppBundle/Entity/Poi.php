@@ -125,4 +125,14 @@ class Poi
     {
         return $this->piezaARecolectar;
     }
+    
+    /**
+     * Metodo toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+    	return 'CoordX: ' . strval($this->getCoordenadaX()) . ' CoordY: ' . strval($this->getCoordenadaY());
+    }
 }

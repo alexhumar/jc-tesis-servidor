@@ -9,3 +9,14 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [JuegoPostasAppBundle]]
+            
+    sonata.admin.subgrupo:
+        class: JuegoPostas\AppBundle\Admin\SubgrupoAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Subgrupo" }
+        arguments:
+            - ~
+            - JuegoPostas\AppBundle\Entity\Subgrupo
+            - ~
+        calls:
+            - [ setTranslationDomain, [JuegoPostasAppBundle]]

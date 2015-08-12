@@ -92,4 +92,14 @@ class Decision
     {
         return $this->cumpleConsigna;
     }
+    
+    /**
+     * Metodo toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+    	return ($this->getCumpleConsigna() ? 'Cumple: ' : 'No cumple: ') . $this->getJustificacion();
+    }
 }

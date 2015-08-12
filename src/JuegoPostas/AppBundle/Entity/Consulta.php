@@ -98,4 +98,19 @@ class Consulta
     {
         return $this->posta;
     }
+    
+    /**
+     * Metodo toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+    	if (isset($this->getDecisionParcial())) {
+    		return $this->getDecisionParcial()->__toString();
+    	} else {
+    		return $this->getClass()->getName();
+    	}
+    	
+    }
 }

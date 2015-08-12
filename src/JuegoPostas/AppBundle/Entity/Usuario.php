@@ -182,4 +182,14 @@ class Usuario
     {
         return $this->email;
     }
+    
+    /**
+     * Metodo toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+    	return $this->getUsername();
+    }
 }

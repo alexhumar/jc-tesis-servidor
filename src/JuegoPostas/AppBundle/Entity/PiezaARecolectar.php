@@ -118,4 +118,14 @@ class PiezaARecolectar
     {
         return $this->consigna;
     }
+    
+    /**
+     * Metodo toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+    	return $this->getNombre() . ' - ' . $this->getDescripcion();
+    }
 }
