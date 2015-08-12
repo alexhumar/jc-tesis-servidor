@@ -1,0 +1,11 @@
+services:
+    sonata.admin.estadosubgrupo:
+        class: JuegoPostas\AppBundle\Admin\EstadoSubgrupoAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Estado Subgrupo" }
+        arguments:
+            - ~
+            - JuegoPostas\AppBundle\Entity\EstadoSubgrupo
+            - ~
+        calls:
+            - [ setTranslationDomain, [JuegoPostasAppBundle]]

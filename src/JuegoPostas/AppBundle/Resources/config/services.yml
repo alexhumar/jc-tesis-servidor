@@ -1,0 +1,4 @@
+services:
+#    juego_postas_app.example:
+#        class: JuegoPostas\AppBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
