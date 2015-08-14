@@ -1,11 +1,11 @@
 services:
-    sonata.admin.estadosubgrupo:
-        class: JuegoPostas\AppBundle\Admin\EstadoSubgrupoAdmin
+    sonata.admin.grupo:
+        class: JuegoPostas\AppBundle\Admin\GrupoAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Estado Subgrupo" }
+            - { name: sonata.admin, manager_type: orm, group: "Grupos", label: "Grupo" }
         arguments:
             - ~
-            - JuegoPostas\AppBundle\Entity\EstadoSubgrupo
+            - JuegoPostas\AppBundle\Entity\Grupo
             - ~
         calls:
             - [ setTranslationDomain, [JuegoPostasAppBundle]]
@@ -13,10 +13,98 @@ services:
     sonata.admin.subgrupo:
         class: JuegoPostas\AppBundle\Admin\SubgrupoAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Content", label: "Subgrupo" }
+            - { name: sonata.admin, manager_type: orm, group: "Grupos", label: "Subgrupo" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Subgrupo
+            - ~
+        calls:
+            - [ setTranslationDomain, [JuegoPostasAppBundle]]
+            
+    sonata.admin.estadosubgrupo:
+        class: JuegoPostas\AppBundle\Admin\EstadoSubgrupoAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Grupos", label: "Estado Subgrupo" }
+        arguments:
+            - ~
+            - JuegoPostas\AppBundle\Entity\EstadoSubgrupo
+            - ~
+        calls:
+            - [ setTranslationDomain, [JuegoPostasAppBundle]]
+            
+    sonata.admin.participante:
+        class: JuegoPostas\AppBundle\Admin\ParticipanteAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Grupos", label: "Participante" }
+        arguments:
+            - ~
+            - JuegoPostas\AppBundle\Entity\Participante
+            - ~
+        calls:
+            - [ setTranslationDomain, [JuegoPostasAppBundle]]
+                     
+    sonata.admin.camino:
+        class: JuegoPostas\AppBundle\Admin\CaminoAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Camino", label: "Camino" }
+        arguments:
+            - ~
+            - JuegoPostas\AppBundle\Entity\Camino
+            - ~
+        calls:
+            - [ setTranslationDomain, [JuegoPostasAppBundle]]
+            
+    sonata.admin.posta:
+        class: JuegoPostas\AppBundle\Admin\PostaAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Camino", label: "Posta" }
+        arguments:
+            - ~
+            - JuegoPostas\AppBundle\Entity\Posta
+            - ~
+        calls:
+            - [ setTranslationDomain, [JuegoPostasAppBundle]]
+            
+    sonata.admin.poi:
+        class: JuegoPostas\AppBundle\Admin\PoiAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Camino", label: "Poi" }
+        arguments:
+            - ~
+            - JuegoPostas\AppBundle\Entity\Poi
+            - ~
+        calls:
+            - [ setTranslationDomain, [JuegoPostasAppBundle]]
+            
+    sonata.admin.consigna:
+        class: JuegoPostas\AppBundle\Admin\ConsignaAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Consignas", label: "Consigna" }
+        arguments:
+            - ~
+            - JuegoPostas\AppBundle\Entity\Consigna
+            - ~
+        calls:
+            - [ setTranslationDomain, [JuegoPostasAppBundle]]
+            
+    sonata.admin.piezaarecolectar:
+        class: JuegoPostas\AppBundle\Admin\PiezaARecolectarAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Consignas", label: "Pieza a recolectar" }
+        arguments:
+            - ~
+            - JuegoPostas\AppBundle\Entity\PiezaARecolectar
+            - ~
+        calls:
+            - [ setTranslationDomain, [JuegoPostasAppBundle]]
+            
+    sonata.admin.decision:
+        class: JuegoPostas\AppBundle\Admin\DecisionAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Consultas", label: "Decision" }
+        arguments:
+            - ~
+            - JuegoPostas\AppBundle\Entity\Decision
             - ~
         calls:
             - [ setTranslationDomain, [JuegoPostasAppBundle]]

@@ -1,5 +1,5 @@
 <?php
-// src/JuegoPostas/AppBundle/Admin/SubgrupoAdmin.php
+// src/JuegoPostas/AppBundle/Admin/ParticipanteAdmin.php
 
 namespace JuegoPostas\AppBundle\Admin;
 
@@ -8,15 +8,15 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class SubgrupoAdmin extends Admin
+class ParticipanteAdmin extends Admin
 {
     // Campos que deben mostrarse en los forms de creacion/edicion
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
             ->add('nombre', 'text', array('label' => 'Nombre'))
-            ->add('grupo', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\Grupo'))
-            ->add('estado', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\EstadoSubgrupo'))
+            ->add('edad', null, array('label' => 'Edad'))
+            /* TODO - Faltaria ver la asociacion con Subgrupo*/
         ;
     }
 
@@ -32,7 +32,7 @@ class SubgrupoAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('nombre')
+            ->add('nombre')
         ;
     }
 }

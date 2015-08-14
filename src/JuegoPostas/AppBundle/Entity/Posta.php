@@ -20,6 +20,13 @@ class Posta
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=150, nullable=false)
+     */
+    private $nombre;
 
 	/**
 	 * @var \JuegoPostas\AppBundle\Entity\Posta
@@ -69,6 +76,29 @@ class Posta
     public function getId()
     {
         return $this->id;
+    }
+    
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Posta
+     */
+    public function setNombre($nombre)
+    {
+    	$this->nombre = $nombre;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get nombre
+     *
+     * @return string
+     */
+    public function getNombre()
+    {
+    	return $this->nombre;
     }
 
     /**
