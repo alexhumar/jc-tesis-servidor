@@ -10,6 +10,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class SubgrupoAdmin extends Admin
 {
+	protected $baseRouteName = 'sonata_subgrupo';
+	
     // Campos que deben mostrarse en los forms de creacion/edicion
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -17,6 +19,7 @@ class SubgrupoAdmin extends Admin
             ->add('nombre', 'text', array('label' => 'Nombre'))
             ->add('grupo', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\Grupo'))
             ->add('estado', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\EstadoSubgrupo'))
+			->add('participantes');
         ;
     }
 

@@ -10,6 +10,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class ParticipanteAdmin extends Admin
 {
+	protected $baseRouteName = 'sonata_participante';
+	
     // Campos que deben mostrarse en los forms de creacion/edicion
     protected function configureFormFields(FormMapper $formMapper)
     {

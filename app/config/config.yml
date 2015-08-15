@@ -86,3 +86,8 @@ sonata_block:
         # Enable the SonataAdminBundle block
         sonata.admin.block.admin_list:
             contexts:   [admin]
+sonata_admin:
+    title:                'Juego Colaborativo'
+    title_logo:           bundles/sonataadmin/logo_title.png
+    templates:
+        layout: JuegoPostasAppBundle::standard_layout.html.twig

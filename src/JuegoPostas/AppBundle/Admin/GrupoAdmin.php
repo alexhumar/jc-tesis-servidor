@@ -10,6 +10,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class GrupoAdmin extends Admin
 {
+	protected $baseRouteName = 'sonata_grupo';
+	
     // Campos que deben mostrarse en los forms de creacion/edicion
     protected function configureFormFields(FormMapper $formMapper)
     {

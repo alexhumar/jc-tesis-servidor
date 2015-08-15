@@ -10,6 +10,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class CaminoAdmin extends Admin
 {
+	protected $baseRouteName = 'sonata_camino';
+	
     // Campos que deben mostrarse en los forms de creacion/edicion
     protected function configureFormFields(FormMapper $formMapper)
     {

@@ -1,5 +1,5 @@
 <?php
-// src/JuegoPostas/AppBundle/Admin/ConsignaAdmin.php
+// src/JuegoPostas/AppBundle/Admin/EstrategiaAdmin.php
 
 namespace JuegoPostas\AppBundle\Admin;
 
@@ -8,18 +8,16 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class ConsignaAdmin extends Admin
+class EstrategiaAdmin extends Admin
 {
-	protected $baseRouteName = 'sonata_consigna';
+	protected $baseRouteName = 'sonata_estrategia';
 	
     // Campos que deben mostrarse en los forms de creacion/edicion
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
             ->add('nombre')
-            ->add('descripcion', 'text', array('label' => 'Descripcion'))
-			->add('piezasARecolectar')
-            /* FIXME - Explota cuando la cantidad es muy grande, no deberia molestar por ahora. */
+            ->add('descripcion')
         ;
     }
 
@@ -36,6 +34,7 @@ class ConsignaAdmin extends Admin
     {
         $listMapper
             ->add('nombre')
+			->add('descripcion')
         ;
     }
 }

@@ -108,3 +108,43 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [JuegoPostasAppBundle]]
+    sonata.admin.respuesta:
+        class: JuegoPostas\AppBundle\Admin\ConsultaAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Consultas", label: "Consulta" }
+        arguments:
+            - ~
+            - JuegoPostas\AppBundle\Entity\Consulta
+            - ~
+        calls:
+            - [ setTranslationDomain, [JuegoPostasAppBundle]]
+    sonata.admin.respuesta:
+        class: JuegoPostas\AppBundle\Admin\RespuestaAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Consultas", label: "Respuesta" }
+        arguments:
+            - ~
+            - JuegoPostas\AppBundle\Entity\Respuesta
+            - ~
+        calls:
+            - [ setTranslationDomain, [JuegoPostasAppBundle]]
+    sonata.admin.usuario:
+        class: JuegoPostas\AppBundle\Admin\UsuarioAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Usuarios", label: "Usuario" }
+        arguments:
+            - ~
+            - JuegoPostas\AppBundle\Entity\Usuario
+            - ~
+        calls:
+            - [ setTranslationDomain, [JuegoPostasAppBundle]]
+    sonata.admin.estrategia:
+        class: JuegoPostas\AppBundle\Admin\EstrategiaAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Estrategia", label: "Estrategia" }
+        arguments:
+            - ~
+            - JuegoPostas\AppBundle\Entity\Estrategia
+            - ~
+        calls:
+            - [ setTranslationDomain, [JuegoPostasAppBundle]]

@@ -10,6 +10,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class DecisionAdmin extends Admin
 {
+	protected $baseRouteName = 'sonata_decision';
+	
     // Campos que deben mostrarse en los forms de creacion/edicion
     protected function configureFormFields(FormMapper $formMapper)
     {

@@ -10,6 +10,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class EstadoSubgrupoAdmin extends Admin
 {
+	protected $baseRouteName = 'sonata_estadosubgrupo';
+	
     // Campos que deben mostrarse en los forms de creacion/edicion
     protected function configureFormFields(FormMapper $formMapper)
     {
