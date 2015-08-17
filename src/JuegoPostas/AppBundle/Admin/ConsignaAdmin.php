@@ -18,7 +18,10 @@ class ConsignaAdmin extends Admin
         $formMapper
             ->add('nombre')
             ->add('descripcion', 'text', array('label' => 'Descripcion'))
-			->add('piezasARecolectar')
+			->add('piezasARecolectar', 'sonata_type_model',
+            array(
+                'multiple' => true
+            ));
             /* FIXME - Explota cuando la cantidad es muy grande, no deberia molestar por ahora. */
         ;
     }

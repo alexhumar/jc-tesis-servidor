@@ -19,7 +19,10 @@ class SubgrupoAdmin extends Admin
             ->add('nombre', 'text', array('label' => 'Nombre'))
             ->add('grupo', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\Grupo'))
             ->add('estado', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\EstadoSubgrupo'))
-			->add('participantes');
+			->add('participantes', 'sonata_type_model',
+            array(
+                'multiple' => true
+            ))
         ;
     }
 
