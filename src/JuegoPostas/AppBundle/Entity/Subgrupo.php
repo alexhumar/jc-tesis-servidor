@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Subgrupo
  *
  * @ORM\Table(name="subgrupo")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="JuegoPostas\AppBundle\Repository\SubgrupoRepository")
  */
 class Subgrupo
 {
@@ -50,7 +50,7 @@ class Subgrupo
     private $grupo;
 	
 	/**
-     * @ORM\OneToMany(targetEntity="JuegoPostas\AppBundle\Entity\Participante", mappedBy="subgrupo")
+     * @ORM\OneToMany(targetEntity="JuegoPostas\AppBundle\Entity\Participante", mappedBy="subgrupo", cascade={"persist"}, orphanRemoval=true)
      */
 	private $participantes;
 
@@ -149,7 +149,35 @@ class Subgrupo
      */
     public function addParticipante(\JuegoPostas\AppBundle\Entity\Participante $participante)
     {
-        $this->participantes[] = $participante;
+    	$participante->setSubgrupo($this);
+    	
+        $this->participantes->add($participante);
+    }
+    
+    /**
+     * Remove participante
+     *
+     * @param \JuegoPostas\AppBundle\Entity\Participante $participante
+     */
+    public function removeParticipante(\JuegoPostas\AppBundle\Entity\Participante $participante)
+    {
+    	$this->getParticipantes()->removeElement($participante);
+    }
+    
+    /**
+     * Set participantes
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function setParticipantes($participantes)
+    {
+    	if (count($participantes) > 0) {
+        	foreach ($participantes as $p) {
+            	$this->addParticipante($p);
+        	}
+    	}
+    
+    	return $this;
     }
 
     /**

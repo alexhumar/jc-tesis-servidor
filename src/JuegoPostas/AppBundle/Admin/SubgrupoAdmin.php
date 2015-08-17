@@ -12,6 +12,19 @@ class SubgrupoAdmin extends Admin
 {
 	protected $baseRouteName = 'sonata_subgrupo';
 	
+	//Funcion que se ejecuta antes de persistir una entidad
+	public function prePersist($subgrupo)
+	{
+		$this->preUpdate($subgrupo);
+	}
+	
+	//Funcion que se ejecuta antes de editar una entidad
+	public function preUpdate($subgrupo)
+	{
+		//Se hace esto para setear la inversa de la relacion.
+		$subgrupo->setParticipantes($subgrupo->getParticipantes());
+	}
+	
     // Campos que deben mostrarse en los forms de creacion/edicion
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -21,8 +34,8 @@ class SubgrupoAdmin extends Admin
             ->add('estado', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\EstadoSubgrupo'))
 			->add('participantes', 'sonata_type_model',
             array(
-                'multiple' => true
-            ))
+                'multiple' => true)
+            )
         ;
     }
 

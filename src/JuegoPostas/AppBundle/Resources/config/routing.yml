@@ -1,3 +1,7 @@
 juego_postas_app_homepage:
     path:     /hello/{name}
     defaults: { _controller: JuegoPostasAppBundle:Default:index }
+
+juco_soap_services:
+    path: /soap/services
+    defaults: { _controller: JuegoPostasAppBundle:Soap:services }
