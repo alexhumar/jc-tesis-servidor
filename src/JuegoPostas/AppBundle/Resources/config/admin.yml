@@ -42,7 +42,7 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [JuegoPostasAppBundle]]
-                     
+            
     sonata.admin.camino:
         class: JuegoPostas\AppBundle\Admin\CaminoAdmin
         tags:
