@@ -37,7 +37,7 @@ class Consigna
     private $descripcion;
 	
 	/**
-     * @ORM\OneToMany(targetEntity="JuegoPostas\AppBundle\Entity\PiezaARecolectar", mappedBy="consigna")
+     * @ORM\OneToMany(targetEntity="JuegoPostas\AppBundle\Entity\PiezaARecolectar", mappedBy="consigna", cascade={"persist"}, orphanRemoval=true)
      */
 	private $piezasARecolectar;
 	
@@ -110,11 +110,39 @@ class Consigna
 	/**
      * Add piezaARecolectar
      *
-     * @param Salita\PlanBundle\Entity\PiezaARecolectar $pieza
+     * @param JuegoPostas\AppBundle\Entity\PiezaARecolectar $pieza
      */
-    public function addPiezaARecolectar(\Salita\PlanBundle\Entity\PiezaARecolectar $pieza)
+    public function addPiezaARecolectar(\JuegoPostas\AppBundle\Entity\PiezaARecolectar $pieza)
     {
-        $this->piezasARecolectar[] = $pieza;
+    	$pieza->setConsigna($this);
+    	
+        $this->piezasARecolectar->add($pieza);
+    }
+    
+    /**
+     * Remove piezaARecolectar
+     *
+     * @param \JuegoPostas\AppBundle\Entity\PiezaARecolectar $pieza
+     */
+    public function removePiezaARecolectar(\JuegoPostas\AppBundle\Entity\PiezaARecolectar $pieza)
+    {
+    	$this->getPiezasARecolectar()->removeElement($pieza);
+    }
+    
+    /**
+     * Set piezasARecolectar
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function setPiezasARecolectar($piezas)
+    {
+    	if (count($piezas) > 0) {
+    		foreach ($piezas as $p) {
+    			$this->addPiezaARecolectar($p);
+    		}
+    	}
+    
+    	return $this;
     }
 
     /**

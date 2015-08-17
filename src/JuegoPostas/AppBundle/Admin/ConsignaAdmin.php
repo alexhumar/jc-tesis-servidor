@@ -12,6 +12,19 @@ class ConsignaAdmin extends Admin
 {
 	protected $baseRouteName = 'sonata_consigna';
 	
+	//Funcion que se ejecuta antes de persistir una entidad
+	public function prePersist($consigna)
+	{
+		$this->preUpdate($consigna);
+	}
+	
+	//Funcion que se ejecuta antes de editar una entidad
+	public function preUpdate($consigna)
+	{
+		//Se hace esto para setear la inversa de la relacion.
+		$consigna->setPiezasARecolectar($consigna->getPiezasARecolectar());
+	}
+	
     // Campos que deben mostrarse en los forms de creacion/edicion
     protected function configureFormFields(FormMapper $formMapper)
     {
