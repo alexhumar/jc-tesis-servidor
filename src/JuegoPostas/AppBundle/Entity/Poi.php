@@ -3,6 +3,8 @@
 namespace JuegoPostas\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Oh\GoogleMapFormTypeBundle\Validator\Constraints as OhAssert;
 
 /**
  * Poi
@@ -124,6 +126,23 @@ class Poi
     public function getPiezaARecolectar()
     {
         return $this->piezaARecolectar;
+    }
+	
+	//*** CODIGO NECESARIO PARA HACER ANDAR EL BUNDLE DE GOOGLE MAPS
+	public function setLatLng($latlng)
+    {
+        $this->setCoordenadaY($latlng['lat']);
+        $this->setCoordenadaX($latlng['lng']);
+        return $this;
+    }
+
+    /**
+     * @Assert\NotBlank()
+     * @OhAssert\LatLng()
+     */
+    public function getLatLng()
+    {
+        return array('lat'=>$this->getCoordenadaY(),'lng'=>$this->getCoordenadaX());
     }
     
     /**

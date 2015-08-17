@@ -22,6 +22,8 @@ class AppKernel extends Kernel
 			new Knp\Bundle\MenuBundle\KnpMenuBundle(),
 			new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
 			new Sonata\AdminBundle\SonataAdminBundle(),
+			//bundle de google maps
+			new Oh\GoogleMapFormTypeBundle\OhGoogleMapFormTypeBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

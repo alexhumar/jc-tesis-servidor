@@ -36,12 +36,17 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    form:
+        resources:
+            # Lo usa el bundle de google map para agregar el mapa
+            - 'JuegoPostasAppBundle::google_maps.html.twig'
 
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ ]
+    bundles:        [ 'OhGoogleMapFormTypeBundle' ] # Assetics del bundle de google maps
+    
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
