@@ -16,7 +16,7 @@ class RespuestaAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('acuerdoRespuesta', null, array('label' => 'Esta de acuerdo con la respuesta?'))
+            ->add('acuerdoPropuesta', null, array('label' => 'Esta de acuerdo con la propuesta?'))
 			->add('justificacion')
 			->add('consulta')
             ->add('subgrupoConsultado', null, array('label' => 'Subgrupo consultado'))
