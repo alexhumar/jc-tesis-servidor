@@ -108,7 +108,8 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [JuegoPostasAppBundle]]
-    sonata.admin.respuesta:
+            
+    sonata.admin.consulta:
         class: JuegoPostas\AppBundle\Admin\ConsultaAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "Consultas", label: "Consulta" }
@@ -118,6 +119,7 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [JuegoPostasAppBundle]]
+            
     sonata.admin.respuesta:
         class: JuegoPostas\AppBundle\Admin\RespuestaAdmin
         tags:
@@ -128,6 +130,7 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [JuegoPostasAppBundle]]
+            
     sonata.admin.usuario:
         class: JuegoPostas\AppBundle\Admin\UsuarioAdmin
         tags:
@@ -138,6 +141,7 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [JuegoPostasAppBundle]]
+            
     sonata.admin.estrategia:
         class: JuegoPostas\AppBundle\Admin\EstrategiaAdmin
         tags:

@@ -106,10 +106,10 @@ class Consulta
      */
     public function __toString()
     {
-    	if (isset($this->getDecisionParcial())) {
+    	if (null !== $this->getDecisionParcial()) {
     		return $this->getDecisionParcial()->__toString();
     	} else {
-    		return $this->getClass()->getName();
+    		return get_class($this) . $this->getId();
     	}
     	
     }
