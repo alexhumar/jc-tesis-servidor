@@ -37,7 +37,7 @@ class Consigna
     private $descripcion;
 	
 	/**
-     * @ORM\OneToMany(targetEntity="JuegoPostas\AppBundle\Entity\PiezaARecolectar", mappedBy="consigna", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="JuegoPostas\AppBundle\Entity\PiezaARecolectar", mappedBy="consigna", cascade={"persist"})
      */
 	private $piezasARecolectar;
 	
@@ -112,7 +112,7 @@ class Consigna
      *
      * @param JuegoPostas\AppBundle\Entity\PiezaARecolectar $pieza
      */
-    public function addPiezaARecolectar(\JuegoPostas\AppBundle\Entity\PiezaARecolectar $pieza)
+    public function addPiezasARecolectar(\JuegoPostas\AppBundle\Entity\PiezaARecolectar $pieza)
     {
     	$pieza->setConsigna($this);
     	
@@ -124,9 +124,10 @@ class Consigna
      *
      * @param \JuegoPostas\AppBundle\Entity\PiezaARecolectar $pieza
      */
-    public function removePiezaARecolectar(\JuegoPostas\AppBundle\Entity\PiezaARecolectar $pieza)
+    public function removePiezasARecolectar(\JuegoPostas\AppBundle\Entity\PiezaARecolectar $pieza)
     {
-    	$this->getPiezasARecolectar()->removeElement($pieza);
+    	$this->piezasARecolectar->removeElement($pieza);
+		$pieza->setConsigna(null);
     }
     
     /**

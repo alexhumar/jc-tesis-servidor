@@ -104,9 +104,11 @@ class PiezaARecolectar
      *
      * @param \JuegoPostas\AppBundle\Entity\Consigna $consigna
      */
-    public function setConsigna(\JuegoPostas\AppBundle\Entity\Consigna $consigna)
+    public function setConsigna(\JuegoPostas\AppBundle\Entity\Consigna $consigna = null)
     {
         $this->consigna = $consigna;
+		
+		return $this;
     }
 
     /**

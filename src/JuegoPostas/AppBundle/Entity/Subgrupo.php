@@ -3,6 +3,7 @@
 namespace JuegoPostas\AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -49,8 +50,10 @@ class Subgrupo
      */
     private $grupo;
 	
+	//, orphanRemoval=true)
+	
 	/**
-     * @ORM\OneToMany(targetEntity="JuegoPostas\AppBundle\Entity\Participante", mappedBy="subgrupo", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="JuegoPostas\AppBundle\Entity\Participante", mappedBy="subgrupo", cascade={"persist"}) 
      */
 	private $participantes;
 
@@ -162,6 +165,7 @@ class Subgrupo
     public function removeParticipante(\JuegoPostas\AppBundle\Entity\Participante $participante)
     {
     	$this->getParticipantes()->removeElement($participante);
+		$participante->setSubgrupo(null);
     }
     
     /**
@@ -176,7 +180,7 @@ class Subgrupo
             	$this->addParticipante($p);
         	}
     	}
-    
+    	
     	return $this;
     }
 

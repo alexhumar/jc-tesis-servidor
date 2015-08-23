@@ -15,14 +15,14 @@ class ConsignaAdmin extends Admin
 	//Funcion que se ejecuta antes de persistir una entidad
 	public function prePersist($consigna)
 	{
-		$this->preUpdate($consigna);
+		//$this->preUpdate($consigna);
 	}
 	
 	//Funcion que se ejecuta antes de editar una entidad
 	public function preUpdate($consigna)
 	{
 		//Se hace esto para setear la inversa de la relacion.
-		$consigna->setPiezasARecolectar($consigna->getPiezasARecolectar());
+		//$consigna->setPiezasARecolectar($consigna->getPiezasARecolectar());
 	}
 	
     // Campos que deben mostrarse en los forms de creacion/edicion
@@ -33,9 +33,9 @@ class ConsignaAdmin extends Admin
             ->add('descripcion', 'text', array('label' => 'Descripcion'))
 			->add('piezasARecolectar', 'sonata_type_model',
             array(
-                'multiple' => true
-            ));
-            /* FIXME - Explota cuando la cantidad es muy grande, no deberia molestar por ahora. */
+                'multiple' => true,
+				'by_reference'=>false)
+            )
         ;
     }
 

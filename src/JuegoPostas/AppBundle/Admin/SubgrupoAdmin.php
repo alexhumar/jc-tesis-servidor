@@ -15,14 +15,14 @@ class SubgrupoAdmin extends Admin
 	//Funcion que se ejecuta antes de persistir una entidad
 	public function prePersist($subgrupo)
 	{
-		$this->preUpdate($subgrupo);
+		//$this->preUpdate($subgrupo);
 	}
 	
 	//Funcion que se ejecuta antes de editar una entidad
 	public function preUpdate($subgrupo)
 	{
 		//Se hace esto para setear la inversa de la relacion.
-		$subgrupo->setParticipantes($subgrupo->getParticipantes());
+		//$subgrupo->setParticipantes($subgrupo->getParticipantes());
 	}
 	
     // Campos que deben mostrarse en los forms de creacion/edicion
@@ -30,11 +30,12 @@ class SubgrupoAdmin extends Admin
     {
         $formMapper
             ->add('nombre', 'text', array('label' => 'Nombre'))
-            ->add('grupo', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\Grupo'))
-            ->add('estado', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\EstadoSubgrupo'))
+            ->add('grupo', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\Grupo', 'required'=>false))
+            ->add('estado', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\EstadoSubgrupo', 'required'=>false))
 			->add('participantes', 'sonata_type_model',
             array(
-                'multiple' => true)
+                'multiple' => true,
+				'by_reference'=>false)
             )
         ;
     }
