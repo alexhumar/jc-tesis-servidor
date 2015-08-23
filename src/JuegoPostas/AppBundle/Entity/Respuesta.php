@@ -168,4 +168,16 @@ class Respuesta
     {
     	return ($this->getAcuerdoPropuesta() ? 'De acuerdo: ' : 'En desacuerdo: ') . $this->getJustificacion();
     }
+	
+	/*
+	 * Metodo toArray
+	 * 
+	 * @return array
+	 */
+	 public function toArray($deep = true){
+	 	$array = get_object_vars($this);
+		$array['consulta'] = $this->consulta->toArray();
+		$array['subgrupoConsultado'] = $this->subgrupoConsultado->toArray();
+		return $array;
+	 }
 }

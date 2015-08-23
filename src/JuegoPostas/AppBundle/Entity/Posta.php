@@ -200,6 +200,24 @@ class Posta
      */
     public function __toString()
     {
-    	return 'Posta ' . $this->getId();
+    	return 'Posta ' . $this->getNombre();
     }
+	
+	/*
+	 * Metodo toArray
+	 * 
+	 * @return array
+	 */
+	 public function toArray($deep = true){
+	 	$array = get_object_vars($this);
+		if($this->postaSiguiente != null){
+			$array['postaSiguiente'] = $deep ? $this->postaSiguiente->toArray(false) : $this->postaSiguiente->getId();	
+		}else{
+			$array['postaSiguiente'] = null;
+		}
+		$array['decisionfinal'] = ($this->decisionFinal =! null) ? $this->decisionFinal : null;
+		$array['poi'] = $deep ? $this->poi->toArray() : $this->poi->getId();
+		$array['subgrupo'] = $deep ? $this->subgrupo->toArray() : $this->subgrupo->getId();
+		return $array;
+	 }
 }

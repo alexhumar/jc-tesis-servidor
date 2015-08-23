@@ -203,4 +203,19 @@ class Subgrupo
     {
     	return $this->getNombre();
     }
+	
+	/*
+	 * Metodo toArray
+	 * 
+	 * @return array
+	 */
+	 public function toArray($deep = true){
+	 	$array = get_object_vars($this);
+		$array['estado'] = $this->estado->toArray();
+		$array['grupo'] = $this->grupo->toArray($deep);
+		$array['participantes'] = ($deep) ? 
+			array_map(function($p) {return $p->toArray(false);}, $this->participantes->toArray()) : 
+			$this->participantes->count();
+		return $array;
+	 }
 }

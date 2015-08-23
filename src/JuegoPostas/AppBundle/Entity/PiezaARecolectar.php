@@ -130,4 +130,15 @@ class PiezaARecolectar
     {
     	return $this->getNombre() . ' - ' . $this->getDescripcion();
     }
+	
+	/*
+	 * Metodo toArray
+	 * 
+	 * @return array
+	 */
+	 public function toArray($deep = true){
+	 	$array = get_object_vars($this);
+		$array['consigna'] = $this->consigna->toArray(false);
+		return $array;
+	 }
 }

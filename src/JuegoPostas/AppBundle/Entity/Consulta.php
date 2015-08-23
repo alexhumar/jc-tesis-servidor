@@ -113,4 +113,16 @@ class Consulta
     	}
     	
     }
+	
+	/*
+	 * Metodo toArray
+	 * 
+	 * @return array
+	 */
+	 public function toArray($deep = true){
+	 	$array = get_object_vars($this);
+		$array['decisionParcial'] = $this->decisionParcial->toArray(false);
+		$array['posta'] = $this->posta->toArray(false);
+		return $array;
+	 }
 }

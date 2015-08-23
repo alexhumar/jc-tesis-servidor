@@ -105,4 +105,15 @@ class Camino
     {
     	return $this->getDescripcion();
     }
+	
+	/*
+	 * Metodo toArray
+	 * 
+	 * @return array
+	 */
+	 public function toArray($deep = true){
+	 	$array = get_object_vars($this);
+		$array['primerPosta'] = $this->primerPosta->toArray($deep);
+		return $array;
+	 }
 }

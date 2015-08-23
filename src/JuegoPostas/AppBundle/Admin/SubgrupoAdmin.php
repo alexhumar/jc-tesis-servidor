@@ -30,8 +30,8 @@ class SubgrupoAdmin extends Admin
     {
         $formMapper
             ->add('nombre', 'text', array('label' => 'Nombre'))
-            ->add('grupo', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\Grupo', 'required'=>false))
-            ->add('estado', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\EstadoSubgrupo', 'required'=>false))
+            ->add('grupo', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\Grupo'))//, 'required'=>false))
+            ->add('estado', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\EstadoSubgrupo'))//, 'required'=>false))
 			->add('participantes', 'sonata_type_model',
             array(
                 'multiple' => true,

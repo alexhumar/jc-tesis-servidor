@@ -165,4 +165,17 @@ class Consigna
     {
     	return $this->getDescripcion();
     }
+	
+	/*
+	 * Metodo toArray
+	 * 
+	 * @return array
+	 */
+	 public function toArray($deep = true){
+	 	$array = get_object_vars($this);
+		$array['piezasARecolectar'] = ($deep) ? 
+			array_map(function($p) {return $p->toArray(false);}, $this->piezasARecolectar->toArray()) : 
+			$this->piezasARecolectar->count();
+		return $array;
+	 }
 }

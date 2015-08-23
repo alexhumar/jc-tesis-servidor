@@ -102,4 +102,14 @@ class Decision
     {
     	return ($this->getCumpleConsigna() ? 'Cumple: ' : 'No cumple: ') . $this->getJustificacion();
     }
+	
+	/*
+	 * Metodo toArray
+	 * 
+	 * @return array
+	 */
+	 public function toArray($deep = true){
+	 	$array = get_object_vars($this);
+		return $array;
+	 }
 }

@@ -18,7 +18,8 @@ class GrupoAdmin extends Admin
         $formMapper
             ->add('nombre', 'text', array('label' => 'Nombre'))
             ->add('consigna', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\Consigna'))
-            ->add('camino', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\Camino'))
+			//Chache: Pongo el required en false sino no hay forma de agregar todas las entidades, se arma un ciclo de requireds.
+            ->add('camino', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\Camino','required'=>FALSE))
         ;
     }
 

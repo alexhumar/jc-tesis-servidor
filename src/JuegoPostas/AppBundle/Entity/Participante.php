@@ -135,4 +135,15 @@ class Participante
     {
     	return $this->getNombre();
     }
+	
+	/*
+	 * Metodo toArray
+	 * 
+	 * @return array
+	 */
+	 public function toArray($deep = true){
+	 	$array = get_object_vars($this);
+		$array['subgrupo'] = $this->subgrupo->toArray(false);
+		return $array;
+	 }
 }

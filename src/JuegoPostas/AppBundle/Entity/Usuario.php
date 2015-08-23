@@ -192,4 +192,14 @@ class Usuario
     {
     	return $this->getUsername();
     }
+	
+	/*
+	 * Metodo toArray
+	 * 
+	 * @return array
+	 */
+	 public function toArray($deep = true){
+	 	$array = get_object_vars($this);
+		return $array;
+	 }
 }

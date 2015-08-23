@@ -154,4 +154,15 @@ class Poi
     {
     	return 'CoordX: ' . strval($this->getCoordenadaX()) . ' CoordY: ' . strval($this->getCoordenadaY());
     }
+	
+	/*
+	 * Metodo toArray
+	 * 
+	 * @return array
+	 */
+	 public function toArray($deep = true){
+	 	$array = get_object_vars($this);
+		$array['piezaARecolectar'] = $this->piezaARecolectar->toArray();
+		return $array;
+	 }
 }

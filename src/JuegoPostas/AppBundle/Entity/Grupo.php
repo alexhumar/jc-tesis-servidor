@@ -138,4 +138,16 @@ class Grupo
     {
     	return $this->getNombre();
     }
+	
+	/*
+	 * Metodo toArray
+	 * 
+	 * @return array
+	 */
+	 public function toArray($deep = true){
+	 	$array = get_object_vars($this);
+		$array['camino'] = $this->camino->toArray(false);
+		$array['consigna'] = $this->consigna->toArray(true);
+		return $array;
+	 }
 }
