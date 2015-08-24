@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Consulta
  *
  * @ORM\Table(name="consulta")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="JuegoPostas\AppBundle\Repository\ConsultaRepository")
  */
 class Consulta
 {

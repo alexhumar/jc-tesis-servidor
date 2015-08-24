@@ -7,14 +7,16 @@ use Doctrine\ORM\NoResultException;
 class PostaRepository extends EntityRepository
 {
 	
-	/*Retorna el poi que tiene asignado un determinado subgrupo*/
+	/*Retorna la posta que tiene asignada un determinado subgrupo*/
 	public function getPostaDeSubgrupo($subgrupo)
 	{
 		try {
-			return $this
-				->createQueryBuilder('posta')
+			$qbPosta = $this->createQueryBuilder('posta');
+			
+			return $qbPosta
+				->select('posta')
 				->join('posta.subgrupo', 'subgrupo')
-				->where('subgrupo = :subgrupo')
+				->where($qbPosta->expr()->eq('subgrupo', ':subgrupo'))
 				->setParameter('subgrupo', $subgrupo)
 				->getQuery()
 				->getSingleResult(); //getSingleResult arroja una exepcion si la consulta no devuelve resultado

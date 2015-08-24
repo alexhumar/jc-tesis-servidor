@@ -25,4 +25,12 @@ class ReposManager
 	public function getPostaRepo() {
 		return $this->getEntityManager()->getRepository('JuegoPostasAppBundle:Posta');
 	}
+	
+	public function getEstadoSubgrupoRepo() {
+		return $this->getEntityManager()->getRepository('JuegoPostasAppBundle:EstadoSubgrupo');
+	}
+	
+	public function getConsultaRepo() {
+		return $this->getEntityManager()->getRepository('JuegoPostasAppBundle:Consulta');
+	}
 }
