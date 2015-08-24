@@ -8,21 +8,20 @@ class DefaultController extends Controller
 {
     public function indexAction($name)
     {
-    	/* //Como servicio de symfony funciona bien.
-    	$subgrupos = $this->get('web_services')->getSubgrupos('1');
-    	foreach ($subgrupos as $subgrupo) {
-    		echo($subgrupo);
-    	}die;
-    	var_dump($subgrupos);die; //Prueba para ver si retorna los subgrupos*/
-    	
     	try {
-    		$serviceUri = "http://localhost/sfjuco/web/app_dev.php/soap/services?wsdl";
+    		
+    		//$response = $this->get('web_services')->getPuntoInicial(3);
+    		//echo($response);die;
+    		
+    		$serviceUri = "http://192.168.0.21/sfjuco/web/app_dev.php/soap/services?wsdl";
     		$client = new \SoapClient($serviceUri);
-    		//$response = $client->getSubgrupos(1);
-    		$response = $client->getHolahola('a');
+    		//$response = $client->getSubgrupos(3);
+    		//$response = $client->login('Subgrupo UNO');
+    		$response = $client->getPuntoInicial(4);
+    		//$response = $client->getString(1);
     		//$response = $client->call('MyServiceOne', array('name' => 'Alex')); //IMPORTANTE: este call funciona solo si $client es de clase Zend\Soap\Client
-    		echo($response);die;
-    	} catch (\SoapFault $s) {
+    		var_dump($response);die;
+    	} catch (/*\*/SoapFault $s) {
     		die('ERROR: [' . $s->getCode() . '] ' . $s->getMessage() . $s->getTraceAsString());
     	} catch (Exception $e) {
     		die('ERROR: ' . $e->getMessage());

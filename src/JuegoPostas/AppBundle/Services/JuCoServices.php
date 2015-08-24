@@ -2,6 +2,9 @@
 namespace JuegoPostas\AppBundle\Services;
 
 use JuegoPostas\AppBundle\Services\ReposManager;
+use JuegoPostas\AppBundle\EntityWS\SubgrupoWS;
+use JuegoPostas\AppBundle\EntityWS\PoiWS;
+use Symfony\Component\Debug\Exception\FatalErrorException;
 
 class JuCoServices {
 	
@@ -12,9 +15,52 @@ class JuCoServices {
 		$this->reposManager = $reposManager;
 	}
 	
-	public function getReposManager()
+	private function getReposManager()
 	{
 		return $this->reposManager;
+	}
+	
+	private function getSubgrupoRepo() {
+		return $this->getReposManager()->getSubgrupoRepo();
+	}
+	
+	private function getPostaRepo() {
+		return $this->getReposManager()->getPostaRepo();
+	}
+	
+	/**
+	 * Metodo de logueo al sistema cliente mediante el nombre de subgrupo
+	 * @param string $nombreSubgrupo
+	 * @return integer
+	 */
+	public function login($nombreSubgrupo) {
+		$subgrupoRepo = $this->getSubgrupoRepo();
+		$subgrupo = $subgrupoRepo->findOneByNombre($nombreSubgrupo);
+		(null !== $subgrupo) ? $estado = $subgrupo->getId() : $estado = -1;
+		
+		return $estado;
+	}
+	
+	/**
+	 * Retorna el punto inicial del subgrupo que se recibe como parametro
+	 * @param integer $idSubgrupo
+	 * @return object
+	 */
+	public function getPuntoInicial($idSubgrupo) {
+		$subgrupoRepo = $this->getSubgrupoRepo();
+		$subgrupo = $subgrupoRepo->find($idSubgrupo);
+		$poiWS = new PoiWS(-1, -1, -1);
+		if (null !== $subgrupo) {
+			$posta = $this->getPostaRepo()->getPostaDeSubgrupo($subgrupo);
+			if (null !== $posta) {
+				$poi = $posta->getPoi();
+				if (null !== $poi) {
+					$poiWS = new PoiWS($poi->getId(), $poi->getCoordenadaX(), $poi->getCoordenadaY());
+				}
+			}
+		}
+		
+		return $poiWS;
 	}
 	
 	/**
@@ -23,21 +69,27 @@ class JuCoServices {
 	 * @return array
 	 */
 	public function getSubgrupos($idSubgrupo) {
-		$subgrupoRepo = $this->getReposManager()->getSubgrupoRepo();
-		$subgrupoActual = $subgrupoRepo->find($idSubgrupo);
-		$subgrupos = $subgrupoRepo->getSubgruposDeGrupo($subgrupoActual->getGrupo());
+		$subgrupoRepo = $this->getSubgrupoRepo();
+		$subgrupo = $subgrupoRepo->find($idSubgrupo);
+		$subgruposWS = array();
+		if (null !== $subgrupo) {
+			$subgrupos = $subgrupoRepo->getSubgruposDeGrupo($subgrupo->getGrupo());
+			foreach ($subgrupos as $s) {
+				$subgruposWS[] = new SubgrupoWS($s->getId(), $s->getNombre());
+			}
+		}
 		
-		return $subgrupos;
+		return $subgruposWS;
 	}
 	
 	/**
-	 * Retorna los subgrupos del grupo al que pertenece el subgrupo que se recibe como parametro
-	 * @param string $idSubgrupo
+	 * Servicio de prueba - Retorna un string fijo de prueba
+	 * @param integer $idSubgrupo
 	 * @return string
 	 */
-	public function getHolahola($idSubgrupo) {
-	
-		return 'Hola hola';
+	public function getString($idSubgrupo) {
+		
+		return 'String fijo de prueba';
 	}
 	
 }

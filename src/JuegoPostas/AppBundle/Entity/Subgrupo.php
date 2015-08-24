@@ -26,7 +26,7 @@ class Subgrupo
     /**
      * @var string
      *
-     * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
+     * @ORM\Column(name="nombre", type="string", length=100, nullable=false, unique=true)
      */
     private $nombre;
 

@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Posta
  *
  * @ORM\Table(name="posta")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="JuegoPostas\AppBundle\Repository\PostaRepository")
  */
 class Posta
 {

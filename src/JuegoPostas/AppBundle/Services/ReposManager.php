@@ -21,4 +21,8 @@ class ReposManager
 	{
 		return $this->getEntityManager()->getRepository('JuegoPostasAppBundle:Subgrupo');
 	}
+	
+	public function getPostaRepo() {
+		return $this->getEntityManager()->getRepository('JuegoPostasAppBundle:Posta');
+	}
 }

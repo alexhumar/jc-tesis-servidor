@@ -17,7 +17,7 @@ class SoapController extends Controller {
         if(isset($_GET['wsdl'])) {
             return $this->handleWSDL($this->generateUrl('juco_soap_services', array(), true), 'web_services'); 
         } else {
-            return $this->handleSOAP($this->generateUrl('salita_soap_check', array(), true), 'web_services'); 
+            return $this->handleSOAP($this->generateUrl('juco_soap_services', array(), true), 'web_services'); 
         }
     }
 
@@ -33,11 +33,9 @@ class SoapController extends Controller {
        // Response
        $response = new Response();
        $response->headers->set('Content-Type', 'text/xml; charset=ISO-8859-1');
-       ob_start();
 
        // Handle Soap
-       $autodiscover->handle();
-       $response->setContent(ob_get_clean());
+       $response->setContent($autodiscover->toXml());
        return $response;
     }
 
@@ -46,17 +44,15 @@ class SoapController extends Controller {
      */
     public function handleSOAP($uri, $class) {
         // Soap server
-        $soap = new Soap\Server(null,array('location' => $uri,'uri' => $uri,));
-        $soap->setClass($this->get($class));
+        $server= new Soap\Server(null,array('location' => $uri,'uri' => $uri,));
+        $server->setClass($this->get($class));
 
         // Response
         $response = new Response();
         $response->headers->set('Content-Type', 'text/xml; charset=ISO-8859-1');
 
-        ob_start();
         // Handle Soap
-        $soap->handle();
-        $response->setContent(ob_get_clean());
+        $response->setContent($server->handle());
         return $response;
     }
 }
