@@ -40,6 +40,13 @@ class PiezaARecolectar
      * @ORM\JoinColumn(name="id_consigna", referencedColumnName="id")
      */
 	private $consigna;
+	
+	/**
+	 * @var boolean
+	 *
+	 * @ORM\Column(name="cumple_consigna", type="boolean", nullable=false)
+	 */
+	private $cumpleConsigna;
 
 
 
@@ -119,6 +126,29 @@ class PiezaARecolectar
     public function getConsigna()
     {
         return $this->consigna;
+    }
+    
+    /**
+     * Set cumpleConsigna
+     *
+     * @param boolean $cumpleConsigna
+     * @return PiezaARecolectar
+     */
+    public function setCumpleConsigna($cumpleConsigna)
+    {
+    	$this->cumpleConsigna = $cumpleConsigna;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get cumpleConsigna
+     *
+     * @return boolean
+     */
+    public function getCumpleConsigna()
+    {
+    	return $this->cumpleConsigna;
     }
     
     /**

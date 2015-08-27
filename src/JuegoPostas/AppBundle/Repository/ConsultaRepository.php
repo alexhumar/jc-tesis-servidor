@@ -14,7 +14,7 @@ class ConsultaRepository extends EntityRepository
 		$qbRespuesta = $this->createQueryBuilder('respuesta');
 			
 		try {
-			$qbConsulta
+			return $qbConsulta
 				->select('consulta')
 				->join('consulta.posta', 'posta')
 				->join('posta.subgrupo', 'subgrupo')
@@ -32,6 +32,23 @@ class ConsultaRepository extends EntityRepository
 				->getQuery()
 				->getSingleResult();
 		} catch (NoResultException $e) {
+			return null;
+		}
+	}
+	
+	/*Retorna la consulta del subgrupo recibido como parametro*/
+	public function consultaDeSubgrupo($subgrupo) {
+		try {
+			$qbConsulta = $this->createQueryBuilder('consulta');
+			return $qbConsulta
+				->select('consulta')
+				->join('consulta.posta', 'posta')
+				->join('posta.subgrupo', 'subgrupo')
+				->where($qbConsulta->expr()->eq('subgrupo', ':subgrupo'))
+				->setParameter('subgrupo', $subgrupo)
+				->getQuery()
+				->getSingleResult();
+		} catch (NoResultFoundException $e) {
 			return null;
 		}
 	}

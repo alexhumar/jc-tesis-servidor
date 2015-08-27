@@ -18,6 +18,12 @@ class PiezaARecolectarAdmin extends Admin
         $formMapper
             ->add('nombre', 'text', array('label' => 'Nombre'))
             ->add('descripcion', 'text', array('label' => 'Descripcion'))
+            ->add('cumpleConsigna', 'choice', array(
+    				'choices' => array(
+        				0 => 'No',
+        				1 => 'Si'
+    			)
+			))
             /* TODO - Faltaria ver la asociacion con Consigna*/
         ;
     }
@@ -34,7 +40,7 @@ class PiezaARecolectarAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('nombre')
+            ->addIdentifier('nombre')
         ;
     }
 }

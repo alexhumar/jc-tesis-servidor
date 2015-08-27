@@ -35,6 +35,10 @@ class JuCoServices {
 		return $this->getReposManager()->getConsultaRepo();
 	}
 	
+	private function getRespuestaRepo() {
+		return $this->getReposManager()->getRespuestaRepo();
+	}
+	
 	/**
 	 * Metodo de logueo al sistema cliente mediante el nombre de subgrupo.
 	 * @param string $nombreSubgrupo
@@ -225,6 +229,7 @@ class JuCoServices {
 			if($consulta) {
 				$pieza = $consulta->getPosta()->getPoi()->getPiezaARecolectar(); //Ninguno de estos objetos deberian ser null en este punto.
 				$decisionParcial = $consulta->getDecisionParcial();
+				$pregunta->setId($consulta->getId()); //Alex - MODIFICACION necesaria para que desde android se le pase el idConsulta al guardarRespuesta
 				$pregunta->setNombrePieza($pieza->getNombre());
 				$pregunta->setDescripcionPieza($pieza->getDescripcion());
 				$pregunta->setCumple($decisionParcial->getCumpleConsigna());
@@ -234,6 +239,61 @@ class JuCoServices {
 		}
 			
 		return $pregunta;
+	}
+	
+	/**
+	 * Retorna las respuestas a la consulta que hizo el subgrupo que se recibe como parametro
+	 * @param integer $idSubgrupo
+	 * @return array
+	 */
+	public function existenRespuestas($idsubgrupo) {
+		$subgrupoRepo = $this->getSubgrupoRepo();
+		$subgrupo = $subgrupoRepo->find($idSubgrupo);
+		$respuestas = array();
+		if($subgrupo) {
+			$consultaRealizada = $this->getConsultaRepo()->consultaDeSubgrupo($subgrupo);
+			if($consultaRealizada) { //puede venir null si no realizo consultas alguna. Este chequeo esta bien dejarlo.
+				$respuestas = $this->getRespuestaRepo()->respuestasAConsulta($consultaRealizada);
+				foreach ($respuestas as $respuesta) {
+					$respuestas[] = new RespuestaWS($respuesta->getAcuerdoPropuesta(),
+							$respuesta->getJustificacion(),
+							$respuesta->getSubgrupoConsultado()->getId());
+				}
+			}
+		}
+			
+		return $respuestas;
+	}
+	
+	/**
+	 * Guarda la respuesta a una consulta con los datos que se reciben como parametro
+	 * @param integer $idConsulta
+	 * @param integer $idSubgrupoConsultado
+	 * @param integer $acuerdo
+	 * @param string $justificacion
+	 * @return integer
+	 */
+	public function guardarRespuesta($idConsulta, $idSubgrupoConsultado, $acuerdo, $justificacion) {
+		//Pasarle el $idConsulta es algo que tenemos que agregar en Android.
+		$consultaRespo = $this->getConsultaRepo();
+		$consulta = $consultaRepo->find($idConsulta);
+		$subgrupoRepo = $this->getSubgrupoRepo();
+		$subgrupoConsultado = $subgrupoRepo->find($idSubgrupoConsultado);
+		$resultado = 0;
+		if ($consulta and $subgrupoConsultado) { //Solo si encontro ambos puedo generar la respuesta. Este chequeo dejarlo.
+			$acuerdoConPropuesta = ($acuerdo == 1);
+			$respuesta = new Respuesta();
+			$respuesta->setAcuerdoPropuesta($acuerdoConPropuesta);
+			$respuesta->setJustificacion($justificacion);
+			$respuesta->setConsulta($consulta);
+			$respuesta->setSubgrupoConsultado($subgrupoConsultado);
+			$em = $this->getReposManager()->getEntityManager();
+			$em->persist($respuesta);
+			$em->flush();
+			$resultado = 1;
+		}
+			
+		return $resultado;
 	}
 	
 	/**
@@ -251,18 +311,40 @@ class JuCoServices {
 				$subgruposWS[] = new SubgrupoWS($s->getId(), $s->getNombre());
 			}
 		}
-		
+	
 		return $subgruposWS;
 	}
 	
 	/**
-	 * Servicio de prueba - Retorna un string fijo de prueba
+	 * Retorna los resultados de cada subgrupo del juego respecto a su decision sobre la pieza asociada
 	 * @param integer $idSubgrupo
-	 * @return string
+	 * @return array
 	 */
-	public function getString($idSubgrupo) {
-		
-		return 'String fijo de prueba';
+	public function getResultadoFinal($idSubgrupo) { //Alex - chequear si eliminar o dejar el parametro
+		//REVISARLO TRANQUILO
+		$grupoRepo = $this->getGrupoRepo();
+		$subgrupoRepo = $this->getSubgrupoRepo();
+		$grupos = $grupoRepo->findAll();
+		$resultados = array();
+		foreach ($grupos as $grupo) {
+			$subgrupos = $subgrupoRepo->getSubgruposDeGrupo($grupo);
+			foreach ($subgrupos as $subgrupo) {
+				$posta = $this->getPostaRepo()->getPostaDeSubgrupo($subgrupo);
+				if($posta) {
+					$pieza = $posta->getPoi()->getPiezaARecolectar();
+					$decisionFinal = $posta->getDecisionFinal();
+					$decisionCorrecta = ($decisionFinal->getCumpleConsigna() == $pieza->getCumpleConsigna()) ? 1 : 0;
+					$resultado = new ResultadoWS($grupo->getId(),
+							$grupo->getNombre(),
+							$subgrupo->getId(),
+							$pieza->getNombre(),
+							$decisionFinal->getCumpleConsigna(),
+							$decisionCorrecta); //Indica si lo que respondio el subgrupo esta bien (1) o mal (0)
+							$resultados[] = $resultado;
+				}
+			}
+		}
+			
+		return $resultados;
 	}
-	
 }
