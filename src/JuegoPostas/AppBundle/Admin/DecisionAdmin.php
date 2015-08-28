@@ -16,8 +16,13 @@ class DecisionAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            /*Alex - Dejo que sonata lo reconozca como boolean*/
-            ->add('cumpleConsigna', null, array('label' => 'Cumple la consigna'))
+        	->add('cumpleConsigna', 'choice', array(
+        			'label' => 'Cumple la consigna',
+	        		'choices' => array(
+ 		       			0 => 'No',
+  		      			1 => 'Si'
+    	    	)
+   		     ))
             ->add('justificacion', 'text', array('label' => 'Justificacion'))
         ;
     }

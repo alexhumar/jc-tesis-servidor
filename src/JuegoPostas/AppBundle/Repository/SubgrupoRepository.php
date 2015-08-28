@@ -2,6 +2,7 @@
 namespace JuegoPostas\AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 
 class SubgrupoRepository extends EntityRepository
 {
