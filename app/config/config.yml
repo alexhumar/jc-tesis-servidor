@@ -96,3 +96,15 @@ sonata_admin:
     title_logo:           bundles/sonataadmin/logo_title.png
     templates:
         layout: JuegoPostasAppBundle::standard_layout.html.twig
+        
+be_simple_soap:
+    services:
+        web_services:
+            namespace:     http://192.168.0.5:8080/ws/DemoApi/1.0/
+            binding:       rpc-literal
+            resource:      "@JuegoPostasAppBundle/Services/JuCoServices.php"
+            resource_type: annotation
+    cache:
+        type:     none
+        lifetime: 0
+        limit:    0

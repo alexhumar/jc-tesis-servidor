@@ -5,3 +5,12 @@ juego_postas_app_homepage:
 juco_soap_services:
     path: /soap/services
     defaults: { _controller: JuegoPostasAppBundle:Soap:services }
+    
+juco_soap_test:
+    path: /soap/test
+    defaults: { _controller: JuegoPostasAppBundle:Soap:test }
+        
+_besimple_soap:
+    resource: "@BeSimpleSoapBundle/Resources/config/routing/webservicecontroller.xml"
+    prefix:   /ws
+    

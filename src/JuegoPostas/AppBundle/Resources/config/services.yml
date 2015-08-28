@@ -6,9 +6,9 @@ services:
     repos_manager:
         class: %repos_manager.class%
         arguments: [@doctrine.orm.entity_manager]
-    web_services:
-        class: %web_services.class%
-        arguments: [@repos_manager]
+#    web_services:
+#        class: %web_services.class%
+#        arguments: [@repos_manager]
 
 #    juego_postas_app.example:
 #        class: JuegoPostas\AppBundle\Example

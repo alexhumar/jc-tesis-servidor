@@ -4,19 +4,16 @@ namespace JuegoPostas\AppBundle\Services;
 use JuegoPostas\AppBundle\Services\ReposManager;
 use JuegoPostas\AppBundle\EntityWS\SubgrupoWS;
 use JuegoPostas\AppBundle\EntityWS\PoiWS;
+use JuegoPostas\AppBundle\EntityWS\IntegerWS;
 
-class JuCoServices {
-	
-	protected $reposManager;
-	
-	public function __construct(ReposManager $reposManager)
-	{
-		$this->reposManager = $reposManager;
-	}
+use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
+use Symfony\Component\DependencyInjection\ContainerAware;
+
+class JuCoServices extends ContainerAware{
 	
 	private function getReposManager()
 	{
-		return $this->reposManager;
+		return $this->container->get("repos_manager");
 	}
 	
 	private function getSubgrupoRepo() {
@@ -39,13 +36,15 @@ class JuCoServices {
 	 * Metodo de logueo al sistema cliente mediante el nombre de subgrupo.
 	 * @param string $nombreSubgrupo
 	 * @return integer
+	 * @Soap\Method("login")
+     * @Soap\Param("nombreSubgrupo", phpType = "string")
+     * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
 	 */
 	public function login($nombreSubgrupo) {
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupo = $subgrupoRepo->findOneByNombre($nombreSubgrupo);
 		(null !== $subgrupo) ? $estado = $subgrupo->getId() : $estado = -1;
-		
-		return $estado;
+		return new IntegerWS($estado);
 	}
 	
 	/**
@@ -71,7 +70,7 @@ class JuCoServices {
 			$poi = $posta->getPoi();
 			$poiWS = new PoiWS($poi->getId(), $poi->getCoordenadaX(), $poi->getCoordenadaY());
 		} catch(\Exception $e) {
-			die;$poiWS = new PoiWS(-1, -1, -1);
+			die("hola");$poiWS = new PoiWS(-1, -1, -1);
 		}
 		
 		return $poiWS;
