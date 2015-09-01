@@ -6,12 +6,16 @@ use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 
 class IntegerWS
 {
+	
 	/**
 	 * @Soap\ComplexType("int")
 	 */
     private $valorInteger;
     
-    /*Constructor*/
+    
+    /**
+     * Constructor
+     */
     public function __construct($int) {
     	$this->valorInteger = $int;
     }

@@ -2,13 +2,30 @@
 
 namespace JuegoPostas\AppBundle\EntityWS;
 
+use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
+
 class PoiWS
 {
+	
+	/**
+	 * @Soap\ComplexType("int")
+	 */
     private $id;
+    
+    /**
+     * @Soap\ComplexType("float")
+     */
     private $coordenadaX;
+    
+    /**
+     * @Soap\ComplexType("float")
+     */
     private $coordenadaY;
     
-    /*Constructor*/
+    
+    /**
+     * Constructor
+     */
     public function __construct($id, $coordX, $coordY) {
     	$this->id = $id;
     	$this->coordenadaX = $coordX;
@@ -29,7 +46,7 @@ class PoiWS
      * Set coordenadaX
      *
      * @param float $coordenadaX
-     * @return Poi
+     * @return PoiWS
      */
     public function setCoordenadaX($coordenadaX)
     {
@@ -52,7 +69,7 @@ class PoiWS
      * Set coordenadaY
      *
      * @param float $coordenadaY
-     * @return Poi
+     * @return PoiWS
      */
     public function setCoordenadaY($coordenadaY)
     {

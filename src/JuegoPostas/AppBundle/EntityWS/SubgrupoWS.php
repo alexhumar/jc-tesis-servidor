@@ -2,10 +2,19 @@
 
 namespace JuegoPostas\AppBundle\EntityWS;
 
+use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
+
 class SubgrupoWS
 {
 
+	/**
+	 * @Soap\ComplexType("int")
+	 */
     private $id;
+    
+    /**
+     * @Soap\ComplexType("string")
+     */
     private $nombre;
     
     /**

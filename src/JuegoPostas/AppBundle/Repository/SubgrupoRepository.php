@@ -33,6 +33,7 @@ class SubgrupoRepository extends EntityRepository
 				->where($qbSubgrupo->expr()->neq('estado', ':estado'))
 				->setParameter('estado', $estadoSubgrupo)
 				->getQuery()
+				->setMaxResults(1) //Para evitar que getSingleResult arroje una NoUniqueResultException en caso que haya mas de un resultado
 				->getSingleResult(); //getSingleResult arroja una exepcion si la consulta no devuelve resultado
 		} catch (NoResultException $e) {
 			return null;
