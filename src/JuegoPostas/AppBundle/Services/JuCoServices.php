@@ -8,9 +8,11 @@ use JuegoPostas\AppBundle\EntityWS\PiezaWS;
 use JuegoPostas\AppBundle\EntityWS\ConsignaWS;
 use JuegoPostas\AppBundle\EntityWS\PreguntaWS;
 use JuegoPostas\AppBundle\EntityWS\RespuestaWS;
+use JuegoPostas\AppBundle\EntityWS\ResultadoWS;
 
 use JuegoPostas\AppBundle\Entity\Decision;
 use JuegoPostas\AppBundle\Entity\Consulta;
+use JuegoPostas\AppBundle\Entity\Respuesta;
 
 use BeSimple\SoapBundle\ServiceDefinition\Annotation as Soap;
 use Symfony\Component\DependencyInjection\ContainerAware;
@@ -45,6 +47,10 @@ class JuCoServices extends ContainerAware {
 		return $this->getReposManager()->getRespuestaRepo();
 	}
 	
+	private function getGrupoRepo() {
+		return $this->getReposManager()->getGrupoRepo();
+	}
+	
 	/*public function __construct($reposManager) {
 		$this->reposManager = $reposManager;
 	}*/
@@ -59,7 +65,7 @@ class JuCoServices extends ContainerAware {
 		//Probado
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupo = $subgrupoRepo->findOneByNombre($nombreSubgrupo);
-		(null !== $subgrupo) ? $estado = $subgrupo->getId() : $estado = -1;
+		$subgrupo ? $estado = $subgrupo->getId() : $estado = -1;
 		
 		return new IntegerWS($estado);
 	}
@@ -153,7 +159,7 @@ class JuCoServices extends ContainerAware {
 		//Probado
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupo = $subgrupoRepo->find($idSubgrupo);
-		$resultado = new IntegerWS(-1);
+		$resultado = -1;
 			
 		if ($subgrupo) {
 			$posta = $this->getPostaRepo()->getPostaDeSubgrupo($subgrupo);
@@ -180,11 +186,11 @@ class JuCoServices extends ContainerAware {
 					$em->flush();
 				}
 				
-				$resultado = new IntegerWS($idSubgrupo);
+				$resultado = $idSubgrupo;
 			}
 		}
 			
-		return $resultado;
+		return new IntegerWS($resultado);
 	}
 	
 	/**
@@ -199,20 +205,20 @@ class JuCoServices extends ContainerAware {
 		//Habria que ver si ese razonamiento sirve.
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupo = $subgrupoRepo->find($idSubgrupo);
-		$resultado = new IntegerWS(0);
+		$resultado = 0;
 		if($subgrupo) {
 			$posta = $this->getPostaRepo()->getPostaDeSubgrupo($subgrupo);
 			if($posta) {
 				//Si esta seteada la decision final.
-				if ($posta->getDecisionFinal()) $resultado = new IntegerWS(1);
+				if ($posta->getDecisionFinal()) $resultado = 1;
 			}
 		}
 			
-		return $resultado;
+		return new IntegerWS($resultado);
 	}
 	
 	/**
-	 * Retorna 1 si todos los subgrupos llegaron al estado pasado como parametro. 0 caso contrario
+	 * Retorna 1 si todos los subgrupos llegaron al estado pasado como parametro. 0 caso contrario.
 	 * @Soap\Method("esperarEstadoSubgrupos")
 	 * @Soap\Param("idEstado", phpType = "int")
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
@@ -222,14 +228,14 @@ class JuCoServices extends ContainerAware {
 		$estadoSubgrupoRepo = $this->getEstadoSubgrupoRepo();
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$estadoSubgrupo = $estadoSubgrupoRepo->find($idEstado);
-		$resultado = new IntegerWS(-1);
+		$resultado = -1;
 		if ($estadoSubgrupo) {
 			//Si $subgrupo no es null, quiere decir que al menos un subgrupo no está en el estado pasado como parametro.
 			$subgrupo = $subgrupoRepo->subgrupoEnEstadoDistintoDe($estadoSubgrupo);
-			$subgrupo ? $resultado = new IntegerWS(0) : $resultado = new IntegerWS(1);
+			$subgrupo ? $resultado = 0 : $resultado = 1;
 		}
 			
-		return $resultado;
+		return new IntegerWS($resultado);
 	}
 	
 	/**
@@ -301,21 +307,23 @@ class JuCoServices extends ContainerAware {
 	}
 	
 	/**
-	 * Guarda la respuesta a una consulta con los datos que se reciben como parametro
-	 * @param integer $idConsulta
-	 * @param integer $idSubgrupoConsultado
-	 * @param integer $acuerdo
-	 * @param string $justificacion
-	 * @return integer
+	 * Guarda la respuesta a una consulta con los datos que se reciben como parametro.
+	 * @Soap\Method("guardarRespuesta")
+	 * @Soap\Param("idConsulta", phpType = "int")
+	 * @Soap\Param("idSubgrupoConsultado", phpType = "int")
+	 * @Soap\Param("acuerdo", phpType = "int")
+	 * @Soap\Param("justificacion", phpType = "string")
+	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
 	 */
 	public function guardarRespuesta($idConsulta, $idSubgrupoConsultado, $acuerdo, $justificacion) {
+		//Probado
 		//Pasarle el $idConsulta es algo que tenemos que agregar en Android.
-		$consultaRespo = $this->getConsultaRepo();
+		$consultaRepo = $this->getConsultaRepo();
 		$consulta = $consultaRepo->find($idConsulta);
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupoConsultado = $subgrupoRepo->find($idSubgrupoConsultado);
 		$resultado = 0;
-		if ($consulta and $subgrupoConsultado) { //Solo si encontro ambos puedo generar la respuesta. Este chequeo dejarlo.
+		if ($consulta and $subgrupoConsultado) { //Solo si encontro ambos puedo generar la respuesta.
 			$acuerdoConPropuesta = ($acuerdo == 1);
 			$respuesta = new Respuesta();
 			$respuesta->setAcuerdoPropuesta($acuerdoConPropuesta);
@@ -328,11 +336,11 @@ class JuCoServices extends ContainerAware {
 			$resultado = 1;
 		}
 			
-		return $resultado;
+		return new IntegerWS($resultado);
 	}
 	
 	/**
-	 * Retorna los subgrupos del grupo al que pertenece el subgrupo que se recibe como parametro
+	 * Retorna los subgrupos del grupo al que pertenece el subgrupo que se recibe como parametro.
 	 * @Soap\Method("getSubgrupos")
 	 * @Soap\Param("idSubgrupo", phpType = "int")
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\SubgrupoWS[]")
@@ -353,31 +361,41 @@ class JuCoServices extends ContainerAware {
 	}
 	
 	/**
-	 * Retorna los resultados de cada subgrupo del juego respecto a su decision sobre la pieza asociada
-	 * @param integer $idSubgrupo
-	 * @return array
+	 * Retorna los resultados de cada subgrupo del juego respecto a su decision sobre la pieza asociada.
+	 * @Soap\Method("getResultadoFinal")
+	 * @Soap\Param("idSubgrupo", phpType = "int")
+	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\ResultadoWS[]")
 	 */
 	public function getResultadoFinal($idSubgrupo) { //Alex - chequear si eliminar o dejar el parametro
-		//REVISARLO TRANQUILO
+		//Probado
 		$grupoRepo = $this->getGrupoRepo();
 		$subgrupoRepo = $this->getSubgrupoRepo();
+		$postaRepo = $this->getPostaRepo();
 		$grupos = $grupoRepo->findAll();
 		$resultados = array();
 		foreach ($grupos as $grupo) {
 			$subgrupos = $subgrupoRepo->getSubgruposDeGrupo($grupo);
 			foreach ($subgrupos as $subgrupo) {
-				$posta = $this->getPostaRepo()->getPostaDeSubgrupo($subgrupo);
-				if($posta) {
-					$pieza = $posta->getPoi()->getPiezaARecolectar();
-					$decisionFinal = $posta->getDecisionFinal();
-					$decisionCorrecta = ($decisionFinal->getCumpleConsigna() == $pieza->getCumpleConsigna()) ? 1 : 0;
-					$resultado = new ResultadoWS($grupo->getId(),
-							$grupo->getNombre(),
-							$subgrupo->getId(),
-							$pieza->getNombre(),
-							$decisionFinal->getCumpleConsigna(),
-							$decisionCorrecta); //Indica si lo que respondio el subgrupo esta bien (1) o mal (0)
-							$resultados[] = $resultado;
+				$posta = $postaRepo->getPostaDeSubgrupo($subgrupo);
+				if ($posta) {
+					if ($posta->getPoi()) { //Si la posta tiene un poi asociado.
+						if ($posta->getPoi()->getPiezaARecolectar()) { //Si el poi de la posta tiene una pieza asociada.
+							if ($posta->getDecisionFinal()) { //Si se ha tomado una decision final sobre la posta.
+								$pieza = $posta->getPoi()->getPiezaARecolectar();
+								$decisionFinal = $posta->getDecisionFinal();
+								$decisionCorrecta = ($decisionFinal->getCumpleConsigna() == $pieza->getCumpleConsigna()) ? 1 : 0;
+								$resultado = new ResultadoWS(
+										$grupo->getId(),
+										$grupo->getNombre(),
+										$subgrupo->getId(),
+										$pieza->getNombre(),
+										$decisionFinal->getCumpleConsigna(),
+										$decisionCorrecta //Indica si lo que respondio el subgrupo esta bien (1) o mal (0)
+								);
+								$resultados[] = $resultado;
+							}
+						}
+					}
 				}
 			}
 		}

@@ -37,4 +37,8 @@ class ReposManager
 	public function getRespuestaRepo() {
 		return $this->getEntityManager()->getRepository('JuegoPostasAppBundle:Respuesta');
 	}
+	
+	public function getGrupoRepo() {
+		return $this->getEntityManager()->getRepository('JuegoPostasAppBundle:Grupo');
+	}
 }

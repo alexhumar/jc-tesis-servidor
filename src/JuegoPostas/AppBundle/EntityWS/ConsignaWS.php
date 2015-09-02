@@ -95,7 +95,7 @@ class ConsignaWS
     }
     
     /**
-     * Set nombre grupo
+     * Set nombreGrupo
      *
      * @param string $nombreGrupo
      * @return ConsignaWS
@@ -108,7 +108,7 @@ class ConsignaWS
     }
     
     /**
-     * Get nombre grupo
+     * Get nombreGrupo
      *
      * @return string
      */

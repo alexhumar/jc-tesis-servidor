@@ -62,7 +62,7 @@ class PreguntaWS
     }
 
     /**
-     * Set nombre pieza
+     * Set nombrePieza
      *
      * @param string $nombrePieza
      * @return PreguntaWS
@@ -75,7 +75,7 @@ class PreguntaWS
     }
 
     /**
-     * Get nombre pieza
+     * Get nombrePieza
      *
      * @return string 
      */
@@ -85,7 +85,7 @@ class PreguntaWS
     }
 
     /**
-     * Set descripcion pieza
+     * Set descripcionPieza
      *
      * @param string $descripcionPieza
      * @return PreguntaWS
@@ -98,7 +98,7 @@ class PreguntaWS
     }
 
     /**
-     * Get descripcion pieza
+     * Get descripcionPieza
      *
      * @return string 
      */
@@ -154,7 +154,7 @@ class PreguntaWS
     }
        
     /**
-     * Set id subgrupo consultado
+     * Set idSubgrupoConsultado
      *
      * @param integer $idSubgrupoConsultado
      * @return PreguntaWS
@@ -167,7 +167,7 @@ class PreguntaWS
     }
     
     /**
-     * Get id subgrupo consultado
+     * Get idSubgrupoConsultado
      *
      * @return integer
      */

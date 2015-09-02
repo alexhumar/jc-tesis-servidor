@@ -11,7 +11,9 @@ class DefaultController extends Controller
     {
     	try {
     		/*$jcs = $this->get('web_services');
-    		$response = $jcs->existenRespuestas(1);
+    		//$response = $jcs->guardarRespuesta(3,6,0,"Porque no sabes nada");
+    		//$response = $jcs->esperarEstadoSubgrupos(1);
+    		$response = $jcs->getResultadoFinal(1);
     		var_dump($response);die;*/
     		
     		$serviceUri = $this->container->getParameter("wsdl_uri");
@@ -25,8 +27,10 @@ class DefaultController extends Controller
     		//$response = $client->finJuegoSubgrupo(1);
     		//$response = $client->esperarEstadoSubgrupos(1);
     		//$response = $client->existePreguntaSinResponder(2);
-    		$response = $client->existenRespuestas(4);
+    		//$response = $client->existenRespuestas(4);
+    		//$response = $client->guardarRespuesta(3,6,0,"Porque no sabes nada");
     		//$response = $client->getSubgrupos(1);
+    		//$response = $client->getResultadoFinal(1);
     		var_dump($response);die;
     	} catch (/*\*/SoapFault $s) {
     		die('ERROR: [' . $s->getCode() . '] ' . $s->getMessage() . $s->getTraceAsString());
