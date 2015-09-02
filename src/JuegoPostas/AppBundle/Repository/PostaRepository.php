@@ -7,7 +7,10 @@ use Doctrine\ORM\NoResultException;
 class PostaRepository extends EntityRepository
 {
 	
-	/*Retorna la posta que tiene asignada un determinado subgrupo*/
+	/** 
+	 * Retorna la posta que tiene asignada un determinado subgrupo
+	 * 
+	 **/
 	public function getPostaDeSubgrupo($subgrupo)
 	{
 		try {

@@ -6,6 +6,8 @@ use JuegoPostas\AppBundle\EntityWS\PoiWS;
 use JuegoPostas\AppBundle\EntityWS\IntegerWS;
 use JuegoPostas\AppBundle\EntityWS\PiezaWS;
 use JuegoPostas\AppBundle\EntityWS\ConsignaWS;
+use JuegoPostas\AppBundle\EntityWS\PreguntaWS;
+use JuegoPostas\AppBundle\EntityWS\RespuestaWS;
 
 use JuegoPostas\AppBundle\Entity\Decision;
 use JuegoPostas\AppBundle\Entity\Consulta;
@@ -231,27 +233,38 @@ class JuCoServices extends ContainerAware {
 	}
 	
 	/**
-	 * Retorna una sola consulta sin responder que no sea del subgrupo pasado como parametro.
-	 * @param integer $idSubgrupo
-	 * @return object
+	 * Retorna una sola consulta sin responder que no sea del subgrupo pasado como parametro, pero que esta en su mismo grupo.
+	 * @Soap\Method("existePreguntaSinResponder")
+	 * @Soap\Param("idSubgrupo", phpType = "int")
+	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\PreguntaWS")
 	 */
 	public function existePreguntaSinResponder($idSubgrupo) {
+		//Probado
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupo = $subgrupoRepo->find($idSubgrupo);
-		$pregunta = new PreguntaWS();
-		$pregunta->setIdSubgrupoConsultado(-1);
+		$pregunta = new PreguntaWS(-1, "","", false, "", -1);
 		if($subgrupo) {
 			$consultaRepo = $this->getConsultaRepo();
 			$consulta = $consultaRepo->consultaSinRespuestaDeSubgrupoDistintoA($subgrupo);
 			if($consulta) {
-				$pieza = $consulta->getPosta()->getPoi()->getPiezaARecolectar(); //Ninguno de estos objetos deberian ser null en este punto.
-				$decisionParcial = $consulta->getDecisionParcial();
-				$pregunta->setId($consulta->getId()); //Alex - MODIFICACION necesaria para que desde android se le pase el idConsulta al guardarRespuesta
-				$pregunta->setNombrePieza($pieza->getNombre());
-				$pregunta->setDescripcionPieza($pieza->getDescripcion());
-				$pregunta->setCumple($decisionParcial->getCumpleConsigna());
-				$pregunta->setJustificacion($decisionParcial->getJustificacion());
-				$pregunta->setIdSubgrupoConsultado($idSubgrupo); //Esto todavia no lo tengo super claro. A que subgrupo se refiere??
+				if($consulta->getPosta()) {
+					if($consulta->getPosta()->getPoi()) {
+						if($consulta->getPosta()->getPoi()->getPiezaARecolectar()) {
+							if ($consulta->getDecisionParcial()) {
+								$pieza = $consulta->getPosta()->getPoi()->getPiezaARecolectar();
+								$decisionParcial = $consulta->getDecisionParcial();
+								$pregunta = new PreguntaWS(
+										$consulta->getId(), //Alex - MODIFICACION necesaria para que desde android se le pase el idConsulta al guardarRespuesta
+										$pieza->getNombre(),
+										$pieza->getDescripcion(),
+										$decisionParcial->getCumpleConsigna(),
+										$decisionParcial->getJustificacion(),
+										$idSubgrupo //Esto todavia no lo tengo super claro. A que subgrupo se refiere??
+								);
+							}
+						}
+					}
+				}
 			}
 		}
 			
@@ -259,27 +272,32 @@ class JuCoServices extends ContainerAware {
 	}
 	
 	/**
-	 * Retorna las respuestas a la consulta que hizo el subgrupo que se recibe como parametro
-	 * @param integer $idSubgrupo
-	 * @return array
+	 * Retorna las respuestas a la consulta que hizo el subgrupo que se recibe como parametro.
+	 * @Soap\Method("existenRespuestas")
+	 * @Soap\Param("idSubgrupo", phpType = "int")
+	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\RespuestaWS[]")
 	 */
-	public function existenRespuestas($idsubgrupo) {
+	public function existenRespuestas($idSubgrupo) {
+		//Probado
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupo = $subgrupoRepo->find($idSubgrupo);
-		$respuestas = array();
+		$respuestasResultado = array();
 		if($subgrupo) {
 			$consultaRealizada = $this->getConsultaRepo()->consultaDeSubgrupo($subgrupo);
-			if($consultaRealizada) { //puede venir null si no realizo consultas alguna. Este chequeo esta bien dejarlo.
-				$respuestas = $this->getRespuestaRepo()->respuestasAConsulta($consultaRealizada);
-				foreach ($respuestas as $respuesta) {
-					$respuestas[] = new RespuestaWS($respuesta->getAcuerdoPropuesta(),
-							$respuesta->getJustificacion(),
-							$respuesta->getSubgrupoConsultado()->getId());
+			if($consultaRealizada) {
+				$respuestasAConsulta = $this->getRespuestaRepo()->respuestasAConsulta($consultaRealizada);
+				foreach ($respuestasAConsulta as $respuesta) {
+					$respuestasResultado[] = new RespuestaWS(
+													$respuesta->getId(),
+													$respuesta->getAcuerdoPropuesta(),
+													$respuesta->getJustificacion(),
+													$respuesta->getSubgrupoConsultado()->getId()
+											);
 				}
 			}
 		}
 			
-		return $respuestas;
+		return $respuestasResultado;
 	}
 	
 	/**

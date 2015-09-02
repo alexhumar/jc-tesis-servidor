@@ -7,7 +7,10 @@ use Doctrine\ORM\NoResultException;
 class SubgrupoRepository extends EntityRepository
 {
 	
-	/*Retorna los subgrupos de un determinado grupo*/
+	/**
+	 * Retorna los subgrupos de un determinado grupo
+	 * 
+	 * */
 	public function getSubgruposDeGrupo($grupo) {
 		
 		$qbSubgrupo =  $this->createQueryBuilder('subgrupo');
@@ -22,7 +25,10 @@ class SubgrupoRepository extends EntityRepository
 			->getResult();
 	}
 	
-	/*Retorna el primer subgrupo cuyo estado no sea igual al recibido como parametro*/
+	/**
+	 * Retorna el primer subgrupo cuyo estado no sea igual al recibido como parametro
+	 * 
+	 * */
 	public function subgrupoEnEstadoDistintoDe($estadoSubgrupo) {		
 		try {
 			$qbSubgrupo = $this->createQueryBuilder('subgrupo');

@@ -6,7 +6,10 @@ use Doctrine\ORM\EntityRepository;
 class RespuestaRepository extends EntityRepository
 {
 	
-	/*Retorna las respuestas de la consulta que se recibe como parametro*/
+	/**
+	 * Retorna las respuestas de la consulta que se recibe como parametro
+	 * 
+	 * */
 	public function respuestasAConsulta($consulta) {
 		$qbRespuesta = $this->createQueryBuilder('respuesta');
 		
