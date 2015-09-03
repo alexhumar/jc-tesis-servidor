@@ -26,11 +26,11 @@ class DefaultController extends Controller
     		//$response = $client->tomarDecision(1,0,"Porque plantea algo distinto",1);
     		//$response = $client->finJuegoSubgrupo(1);
     		//$response = $client->esperarEstadoSubgrupos(1);
-    		//$response = $client->existePreguntaSinResponder(2);
+    		//$response = $client->existePreguntaSinResponder(5);
     		//$response = $client->existenRespuestas(4);
     		//$response = $client->guardarRespuesta(3,6,0,"Porque no sabes nada");
     		//$response = $client->getSubgrupos(1);
-    		//$response = $client->getResultadoFinal(1);
+    		$response = $client->getResultadoFinal(1);
     		var_dump($response);die;
     	} catch (/*\*/SoapFault $s) {
     		die('ERROR: [' . $s->getCode() . '] ' . $s->getMessage() . $s->getTraceAsString());
