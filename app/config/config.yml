@@ -96,6 +96,19 @@ sonata_admin:
     title_logo:           bundles/sonataadmin/logo_title.png
     templates:
         layout: JuegoPostasAppBundle::standard_layout.html.twig
+    dashboard:
+        blocks:
+            # display two dashboard blocks
+            -
+                position: left
+                type: sonata.admin.block.admin_list
+                settings:
+                    groups: [Grupos, Camino, Usuarios]
+            -
+                position: right
+                type: sonata.admin.block.admin_list
+                settings:
+                    groups: [Consignas, Consultas, Estrategia]
         
 be_simple_soap:
     services:
