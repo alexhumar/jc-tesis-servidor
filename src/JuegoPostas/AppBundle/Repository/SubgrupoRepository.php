@@ -6,6 +6,22 @@ use Doctrine\ORM\NoResultException;
 
 class SubgrupoRepository extends EntityRepository
 {
+	/**
+	 * Retorna una query que retorna los subgrupos de un determinado grupo
+	 *
+	 * */
+	public function getSubgruposDeGrupoQuery($grupo) {
+	
+		$qbSubgrupo =  $this->createQueryBuilder('subgrupo');
+	
+		return $qbSubgrupo
+			->select('subgrupo')
+			->join('subgrupo.grupo', 'grupo')
+			->where($qbSubgrupo->expr()->eq('grupo', ':grupo'))
+			->setParameter('grupo', $grupo)
+			->orderBy('subgrupo.id')
+			->getQuery();
+	}
 	
 	/**
 	 * Retorna los subgrupos de un determinado grupo
@@ -13,16 +29,7 @@ class SubgrupoRepository extends EntityRepository
 	 * */
 	public function getSubgruposDeGrupo($grupo) {
 		
-		$qbSubgrupo =  $this->createQueryBuilder('subgrupo');
-		
-		return $qbSubgrupo
-			->select('subgrupo')
-			->join('subgrupo.grupo', 'grupo')
-			->where($qbSubgrupo->expr()->eq('grupo', ':grupo'))
-			->setParameter('grupo', $grupo)
-			->orderBy('subgrupo.id')
-			->getQuery()
-			->getResult();
+		return $this->getSubgruposDeGrupoQuery($grupo)->getResult();
 	}
 	
 	/**

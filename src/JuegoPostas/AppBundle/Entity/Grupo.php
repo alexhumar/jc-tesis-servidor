@@ -27,9 +27,9 @@ class Grupo {
 	
 	/**
 	 *
-	 * @var \JuegoPostas\AppBundle\Entity\Camino @ORM\ManyToOne(targetEntity="JuegoPostas\AppBundle\Entity\Camino")
+	 * @var \JuegoPostas\AppBundle\Entity\Camino @ORM\ManyToOne(targetEntity="JuegoPostas\AppBundle\Entity\Camino", inversedBy="grupo")
 	 *      @ORM\JoinColumns({
-	 *      @ORM\JoinColumn(name="id_camino", referencedColumnName="id")
+	 *      @ORM\JoinColumn(name="id_camino", referencedColumnName="id", onDelete="SET NULL")
 	 *      })
 	 */
 	private $camino;

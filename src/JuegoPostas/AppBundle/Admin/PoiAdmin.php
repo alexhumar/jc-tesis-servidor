@@ -31,7 +31,7 @@ class PoiAdmin extends Admin
             //->add('coordenadaX', null, array('label' => 'Coordenada X'))
             //->add('coordenadaY', null, array('label' => 'Coordenada Y'))
             
-            ->add('piezaARecolectar', 'entity', array('class' => 'JuegoPostas\AppBundle\Entity\PiezaARecolectar'))
+            ->add('piezaARecolectar','sonata_type_model')
         ;
     }
 

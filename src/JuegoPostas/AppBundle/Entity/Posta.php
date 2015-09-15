@@ -27,26 +27,26 @@ class Posta {
 	
 	/**
 	 *
-	 * @var \JuegoPostas\AppBundle\Entity\Posta @ORM\OneToOne(targetEntity="JuegoPostas\AppBundle\Entity\Posta")
-	 *      @ORM\JoinColumn(name="id_posta_siguiente", referencedColumnName="id")
+	 * @var \JuegoPostas\AppBundle\Entity\Posta @ORM\OneToOne(targetEntity="JuegoPostas\AppBundle\Entity\Posta", cascade={"persist", "remove"}, orphanRemoval=true)
+	 *      @ORM\JoinColumn(name="id_posta_siguiente", referencedColumnName="id", onDelete="CASCADE")
 	 *     
 	 */
 	private $postaSiguiente;
 	
 	/**
 	 *
-	 * @var \JuegoPostas\AppBundle\Entity\Decision @ORM\ManyToOne(targetEntity="JuegoPostas\AppBundle\Entity\Decision")
+	 * @var \JuegoPostas\AppBundle\Entity\Decision @ORM\ManyToOne(targetEntity="JuegoPostas\AppBundle\Entity\Decision", cascade={"persist", "remove"})
 	 *      @ORM\JoinColumns({
-	 *      @ORM\JoinColumn(name="id_decision_final", referencedColumnName="id")
+	 *      @ORM\JoinColumn(name="id_decision_final", referencedColumnName="id", onDelete="CASCADE")
 	 *      })
 	 */
 	private $decisionFinal;
 	
 	/**
 	 *
-	 * @var \JuegoPostas\AppBundle\Entity\Poi @ORM\ManyToOne(targetEntity="JuegoPostas\AppBundle\Entity\Poi")
+	 * @var \JuegoPostas\AppBundle\Entity\Poi @ORM\ManyToOne(targetEntity="JuegoPostas\AppBundle\Entity\Poi", cascade={"persist","remove"})
 	 *      @ORM\JoinColumns({
-	 *      @ORM\JoinColumn(name="id_poi", referencedColumnName="id")
+	 *      @ORM\JoinColumn(name="id_poi", referencedColumnName="id", onDelete="CASCADE")
 	 *      })
 	 */
 	private $poi;

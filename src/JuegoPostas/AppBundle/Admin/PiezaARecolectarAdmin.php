@@ -24,7 +24,8 @@ class PiezaARecolectarAdmin extends Admin
         				1 => 'Si'
     			)
 			))
-            /* TODO - Faltaria ver la asociacion con Consigna*/
+            //->add('consigna','sonata_type_model'); 
+            /* TODO: SETEAR DIRECTAMENTE EL EL PREPERSIST DE ACUERDO AL GRUPO */
         ;
     }
 

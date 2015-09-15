@@ -27,12 +27,17 @@ class Camino {
 	
 	/**
 	 *
-	 * @var \JuegoPostas\AppBundle\Entity\Posta @ORM\ManyToOne(targetEntity="JuegoPostas\AppBundle\Entity\Posta")
+	 * @var \JuegoPostas\AppBundle\Entity\Posta @ORM\ManyToOne(targetEntity="JuegoPostas\AppBundle\Entity\Posta", cascade={"persist", "remove"})
 	 *      @ORM\JoinColumns({
-	 *      @ORM\JoinColumn(name="id_primer_posta", referencedColumnName="id")
+	 *      @ORM\JoinColumn(name="id_primer_posta", referencedColumnName="id", onDelete="CASCADE")
 	 *      })
 	 */
 	private $primerPosta;
+	
+	/**
+	 * @var \JuegoPostas\AppBundle\Entity\Grupo @ORM\OneToOne(targetEntity="JuegoPostas\AppBundle\Entity\Grupo", mappedBy="camino")
+	 **/
+	private $grupo;
 	
 	/**
 	 * Get id
@@ -86,12 +91,39 @@ class Camino {
 	}
 	
 	/**
+	 * Set grupo
+	 *
+	 * @param \JuegoPostas\AppBundle\Entity\Grupo $grupo
+	 * @return Camino
+	 */
+	public function setGrupo(\JuegoPostas\AppBundle\Entity\Grupo $grupo = null)
+	{
+		$this->grupo = $grupo;
+		$grupo->setCamino($this);
+		return $this;
+	}
+	
+	/**
+	 * Get grupo
+	 *
+	 * @return \JuegoPostas\AppBundle\Entity\Grupo
+	 */
+	public function getGrupo()
+	{
+		return $this->grupo;
+	}
+	
+	/**
 	 * Metodo toString
 	 *
 	 * @return string
 	 */
 	public function __toString() {
 		return $this->getDescripcion ();
+	}
+	
+	public function isNew(){
+		return ($this->getId() == null);
 	}
 	
 	/*

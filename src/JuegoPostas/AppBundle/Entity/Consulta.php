@@ -30,7 +30,7 @@ class Consulta {
 	
 	/**
 	 *
-	 * @var \JuegoPostas\AppBundle\Entity\Posta @ORM\ManyToOne(targetEntity="JuegoPostas\AppBundle\Entity\Posta")
+	 * @var \JuegoPostas\AppBundle\Entity\Posta @ORM\ManyToOne(targetEntity="JuegoPostas\AppBundle\Entity\Posta", cascade={"persist"})
 	 *      @ORM\JoinColumns({
 	 *      @ORM\JoinColumn(name="id_posta", referencedColumnName="id")
 	 *      })

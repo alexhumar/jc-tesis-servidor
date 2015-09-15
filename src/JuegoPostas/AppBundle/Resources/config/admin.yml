@@ -46,7 +46,7 @@ services:
     sonata.admin.camino:
         class: JuegoPostas\AppBundle\Admin\CaminoAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Camino", label: "Camino" }
+            - { name: sonata.admin, manager_type: orm, group: "Camino", label: "Camino", show_in_dashboard: true }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Camino
@@ -57,7 +57,7 @@ services:
     sonata.admin.posta:
         class: JuegoPostas\AppBundle\Admin\PostaAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Camino", label: "Posta" }
+            - { name: sonata.admin, manager_type: orm, group: "Camino", label: "Posta", show_in_dashboard: false }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Posta
@@ -68,7 +68,7 @@ services:
     sonata.admin.poi:
         class: JuegoPostas\AppBundle\Admin\PoiAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Camino", label: "Poi" }
+            - { name: sonata.admin, manager_type: orm, group: "Camino", label: "Poi", show_in_dashboard: false }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Poi
