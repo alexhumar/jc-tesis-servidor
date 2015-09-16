@@ -39,7 +39,7 @@ class PostaAdmin extends Admin
         $nombre = $camino->__toString() . " - Posta " . $countPostas; 
     	$formMapper
 	    	->add('nombre', 'text', array('label' => 'Nombre', 'data'=>$nombre))
-	    	->add('subgrupo', 'sonata_type_model', array('query' => $subgrupoQuery))
+	    	->add('subgrupo', 'sonata_type_model', array('query' => $subgrupoQuery, 'btn_add'=>false))
 	    	->add('poi','sonata_type_admin',array(
 	    			'delete' => false,
 	    			'btn_add' => false,
