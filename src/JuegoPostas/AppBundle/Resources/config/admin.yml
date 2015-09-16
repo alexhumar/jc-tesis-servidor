@@ -53,6 +53,7 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [JuegoPostasAppBundle]]
+            - [ setTemplate, [edit, JuegoPostasAppBundle:CRUD:camino_edit.html.twig]]
             
     sonata.admin.posta:
         class: JuegoPostas\AppBundle\Admin\PostaAdmin

@@ -46,7 +46,7 @@ class CaminoAdmin extends Admin
     	$camino = $this->getSubject();
     	if ($camino->isNew()){
     		//El objeto es nuevo por lo tanto estoy en el create del formulario.
-    		$formMapper->with('Camino', array('description' => '<h3>Las postas podr&aacute;n ser agregadas en la edici&oacute;n del camino.</h3>'))
+    		$formMapper->with('Camino', array('description' => '<h3>Las postas se agregaran a continuaci&oacute;n.</h3>'))
 	    		->add('grupo')
 	    		->add('descripcion', 'text', array('label' => 'Descripcion'))
     		;
