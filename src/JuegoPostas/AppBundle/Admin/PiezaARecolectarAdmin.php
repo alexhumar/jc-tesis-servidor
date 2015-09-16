@@ -24,9 +24,11 @@ class PiezaARecolectarAdmin extends Admin
         				1 => 'Si'
     			)
 			))
-            //->add('consigna','sonata_type_model'); 
-            /* TODO: SETEAR DIRECTAMENTE EL EL PREPERSIST DE ACUERDO AL GRUPO */
+			/* La consigna se setea en el preupdate de grupo */
+            //->add('consigna','sonata_type_model');
+            
         ;
+            
     }
 
     // Campos que deben mostrarse en los forms de filtro
