@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * PiezaARecolectar
  *
  * @ORM\Table(name="pieza_a_recolectar")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="JuegoPostas\AppBundle\Repository\PiezaARecolectarRepository")
  */
 class PiezaARecolectar {
 	/**

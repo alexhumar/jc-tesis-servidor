@@ -20,9 +20,9 @@ class CaminoAdmin extends Admin
 	
 	protected $baseRouteName = 'sonata_camino';
 	
-	/*public function prePersist($camino){
+	public function prePersist($camino){
 		$camino->setGrupo($this->getSubject()->getGrupo());
-	}*/
+	}
 	
 	// Metodo para validaciones especificas
 	public function validate(ErrorElement $errorElement, $object)
@@ -36,7 +36,6 @@ class CaminoAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
     	$camino = $this->getSubject();
-    	
     	if ($camino->isNew()){
     		//El objeto es nuevo por lo tanto estoy en el create del formulario.
     		$formMapper->with('Camino', array('description' => '<h3>Las postas podr&aacute;n ser agregadas en la edici&oacute;n del camino.</h3>'))
@@ -70,12 +69,5 @@ class CaminoAdmin extends Admin
         $listMapper
             ->addIdentifier('descripcion')
         ;
-    }
-    
-    public function getNewInstance()
-    {    	
-    	$instance = parent::getNewInstance();
-    
-    	return $instance;
     }
 }

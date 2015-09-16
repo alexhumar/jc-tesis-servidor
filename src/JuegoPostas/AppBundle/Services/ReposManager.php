@@ -41,4 +41,8 @@ class ReposManager
 	public function getGrupoRepo() {
 		return $this->getEntityManager()->getRepository('JuegoPostasAppBundle:Grupo');
 	}
+	
+	public function getPiezaARecolectarRepo() {
+		return $this->getEntityManager()->getRepository('JuegoPostasAppBundle:PiezaARecolectar');
+	}
 }

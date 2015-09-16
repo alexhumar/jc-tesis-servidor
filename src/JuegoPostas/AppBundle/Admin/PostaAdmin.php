@@ -36,9 +36,9 @@ class PostaAdmin extends Admin
     	
     	$subgrupos = $subgrupoRepo->getSubgruposDeGrupo($camino->getGrupo());
         $subgrupoQuery = $subgrupoRepo->getSubgruposDeGrupoQuery($camino->getGrupo());
-        
+        $nombre = $camino->__toString() . " - Posta " . $countPostas; 
     	$formMapper
-	    	->add('nombre', 'text', array('label' => 'Nombre'))
+	    	->add('nombre', 'text', array('label' => 'Nombre', 'data'=>$nombre))
 	    	->add('subgrupo', 'sonata_type_model', array('query' => $subgrupoQuery))
 	    	->add('poi','sonata_type_admin',array(
 	    			'delete' => false,
