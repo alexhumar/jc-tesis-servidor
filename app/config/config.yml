@@ -65,6 +65,8 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
+        types:
+            json: Sonata\Doctrine\Types\JsonType
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -91,9 +93,13 @@ sonata_block:
         # Enable the SonataAdminBundle block
         sonata.admin.block.admin_list:
             contexts:   [admin]
+        sonata.admin.block.search_result:
+            contexts:   [admin]
+
 sonata_admin:
-    title:                'Juego Colaborativo'
-    title_logo:           bundles/sonataadmin/logo_title.png
+    title: 'Juego Colaborativo'
+    #Alex. Estaria bueno tirar el logo aca: bundles/juegopostasapp/logo_title.png. Pasa que git no le hace un seguimiento.
+    title_logo: logo_title.png
     templates:
         layout: JuegoPostasAppBundle::standard_layout.html.twig
     dashboard:
@@ -103,12 +109,26 @@ sonata_admin:
                 position: left
                 type: sonata.admin.block.admin_list
                 settings:
-                    groups: [Grupos, Camino, Usuarios]
+                    groups: [sonata_user, Grupos de Juego, Camino]
             -
                 position: right
                 type: sonata.admin.block.admin_list
                 settings:
                     groups: [Consignas, Consultas, Estrategia]
+                    
+sonata_user:
+    security_acl: false
+    manager_type: orm
+    
+fos_user:
+    db_driver:      orm
+    firewall_name:  main
+    user_class:     Application\Sonata\UserBundle\Entity\User
+    group:
+        group_class:   Application\Sonata\UserBundle\Entity\Group
+        group_manager: sonata.user.orm.group_manager
+    service:
+        user_manager: sonata.user.orm.user_manager
         
 be_simple_soap:
     services:

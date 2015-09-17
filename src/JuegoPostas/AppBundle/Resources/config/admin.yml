@@ -2,7 +2,7 @@ services:
     sonata.admin.grupo:
         class: JuegoPostas\AppBundle\Admin\GrupoAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Grupos", label: "Grupo" }
+            - { name: sonata.admin, manager_type: orm, group: "Grupos de Juego", label: "Grupo de Juego" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Grupo
@@ -13,7 +13,7 @@ services:
     sonata.admin.subgrupo:
         class: JuegoPostas\AppBundle\Admin\SubgrupoAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Grupos", label: "Subgrupo" }
+            - { name: sonata.admin, manager_type: orm, group: "Grupos de Juego", label: "Subgrupo" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Subgrupo
@@ -24,7 +24,7 @@ services:
     sonata.admin.estadosubgrupo:
         class: JuegoPostas\AppBundle\Admin\EstadoSubgrupoAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Grupos", label: "Estado Subgrupo" }
+            - { name: sonata.admin, manager_type: orm, group: "Grupos de Juego", label: "Estado Subgrupo" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\EstadoSubgrupo
@@ -35,7 +35,7 @@ services:
     sonata.admin.participante:
         class: JuegoPostas\AppBundle\Admin\ParticipanteAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Grupos", label: "Participante" }
+            - { name: sonata.admin, manager_type: orm, group: "Grupos de Juego", label: "Participante" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Participante
@@ -132,16 +132,27 @@ services:
         calls:
             - [ setTranslationDomain, [JuegoPostasAppBundle]]
             
-    sonata.admin.usuario:
-        class: JuegoPostas\AppBundle\Admin\UsuarioAdmin
+#    sonata.admin.usuario:
+#        class: JuegoPostas\AppBundle\Admin\UsuarioAdmin
+#        tags:
+#            - { name: sonata.admin, manager_type: orm, group: "Usuarios", label: "Usuario" }
+#        arguments:
+#            - ~
+#            - JuegoPostas\AppBundle\Entity\Usuario
+#            - ~
+#        calls:
+#            - [ setTranslationDomain, [JuegoPostasAppBundle]]
+
+    sonata.admin.user:
+        class: Sonata\UserBundle\Admin\Entity\UserAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Usuarios", label: "Usuario" }
+            - { name: sonata.admin, manager_type: orm, group: Usuarios, label: Usuario, label_translator_strategy: sonata.admin.label.strategy.underscore }
         arguments:
-            - ~
-            - JuegoPostas\AppBundle\Entity\Usuario
-            - ~
+            - null
+            - Application\Sonata\UserBundle\Entity\User
+            - SonataAdminBundle:CRUD
         calls:
-            - [ setTranslationDomain, [JuegoPostasAppBundle]]
+            - [setTranslationDomain, [SonataUserBundle]]
             
     sonata.admin.estrategia:
         class: JuegoPostas\AppBundle\Admin\EstrategiaAdmin
