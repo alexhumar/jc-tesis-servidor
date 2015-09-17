@@ -18,7 +18,29 @@ class PoiAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
     	$piezasRepo = $this->getConfigurationPool()->getContainer()->get('repos_manager')->getPiezaARecolectarRepo();
-    	
+    	/* Para obtener el POI tengo que volver al camino y recorrer las postas hasta volver al POI.
+    	 * Esto pasa porque no se puede obtener el objeto actual de un formulario embebido, tengo que 
+    	 * sacarlo del formulario padre, en este caso, el unico formulario que no es embebido es el de
+    	 * camino.
+    	 */
+    	//Me quedo con el objeto del formulario raíz, es decir, el camino.
+    	$camino = $this->getRoot()->getSubject();
+    	$posta = $camino->getPrimerPosta();
+    	$piezaPredefinida = null;
+    	if($posta != null){
+    		$parentAdmin = $this->getParentFieldDescription()->getAdmin(); //Esta el la posta del poi
+    		$countPostas = 0; //Calculo la cantidad de postas antes de llegar al camino
+    		while ($parentAdmin->hasParentFieldDescription()){
+    			$parentAdmin = $parentAdmin->getParentFieldDescription()->getAdmin();
+    			 
+    			$countPostas++;
+    		}
+    		 
+    		//Busco la posta que contenga al POI del formulario actual
+    		for ($i=1 ; $i<$countPostas ; $i++) $posta=$posta->getPostaSiguiente();
+    		
+    		$piezaPredefinida = $posta->getPoi()->getPiezaARecolectar();
+    	}
         $formMapper
         	->add('latlng', 'oh_google_maps', array(
     			'map_width'      => 1200,     // the width of the map
@@ -33,7 +55,7 @@ class PoiAdmin extends Admin
             //->add('coordenadaX', null, array('label' => 'Coordenada X'))
             //->add('coordenadaY', null, array('label' => 'Coordenada Y'))
             
-            ->add('piezaARecolectar','sonata_type_model', array('query'=>$piezasRepo->piezasSinPoiQuery()))
+            ->add('piezaARecolectar','sonata_type_model', array('query'=>$piezasRepo->piezasSinPoiQuery($piezaPredefinida)))
         ;
     }
 
