@@ -12,7 +12,7 @@ use Sonata\AdminBundle\Validator\ErrorElement;
 use JuegoPostas\AppBundle\Entity\Posta;
 use JuegoPostas\AppBundle\Entity\Poi;
 use Sonata\AdminBundle\Tests\DependencyInjection\Post;
-use JuegoPostas;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class CaminoAdmin extends Admin
 {
@@ -33,10 +33,27 @@ class CaminoAdmin extends Admin
 	}
 	
 	// Metodo para validaciones especificas
-	public function validate(ErrorElement $errorElement, $object)
+	public function validate(ErrorElement $errorElement, $camino)
 	{
-		if (false) {
-		    $errorElement->with('camino')->addViolation('Fail to check the complex rules')->end();
+		$posta = $camino->getPrimerPosta();
+		$subgrupos = new ArrayCollection();
+		$piezas = new ArrayCollection();
+		while($posta != null){
+			$subgrupo = $posta->getSubgrupo();
+			$pieza = $posta->getPoi()->getPiezaARecolectar();
+			if ($subgrupos->contains($subgrupo)){
+				$posta = null;
+				$errorElement->with('subgrupo')->addViolation('No pueden existir dos postas con el mismo subgrupo.')->end();
+			}else{
+				$posta = $posta->getPostaSiguiente();
+				$subgrupos->add($subgrupo);
+			}
+			if ($piezas->contains($pieza)){
+				$posta = null;
+				$errorElement->with('subgrupo')->addViolation('No pueden existir dos postas con la misma pieza a recolectar.')->end();
+			}else{
+				$piezas->add($pieza);
+			}
 		}
 	}
 	
