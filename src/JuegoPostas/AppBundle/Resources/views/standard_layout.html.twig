@@ -1,7 +1,7 @@
 {% extends 'SonataAdminBundle::standard_layout.html.twig' %}
 {% block stylesheets %}
 	{{ parent() }}
-	<link rel="stylesheet" href="/css/style.css" />
+	<link rel="stylesheet" href="{{ asset('css/style.css') }}" />
 {% endblock %}
 
 {% block side_bar_after_nav %}

@@ -2,7 +2,7 @@ services:
     sonata.admin.grupo:
         class: JuegoPostas\AppBundle\Admin\GrupoAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Grupos de Juego", label: "Grupo de Juego" }
+            - { name: sonata.admin, manager_type: orm, label: "Grupo de Juego" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Grupo
@@ -13,7 +13,7 @@ services:
     sonata.admin.subgrupo:
         class: JuegoPostas\AppBundle\Admin\SubgrupoAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Grupos de Juego", label: "Subgrupo" }
+            - { name: sonata.admin, manager_type: orm, label: "Subgrupo" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Subgrupo
@@ -24,7 +24,7 @@ services:
     sonata.admin.estadosubgrupo:
         class: JuegoPostas\AppBundle\Admin\EstadoSubgrupoAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Grupos de Juego", label: "Estado Subgrupo" }
+            - { name: sonata.admin, manager_type: orm, label: "Estado Subgrupo" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\EstadoSubgrupo
@@ -35,7 +35,7 @@ services:
     sonata.admin.participante:
         class: JuegoPostas\AppBundle\Admin\ParticipanteAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Grupos de Juego", label: "Participante" }
+            - { name: sonata.admin, manager_type: orm, label: "Participante" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Participante
@@ -46,7 +46,7 @@ services:
     sonata.admin.camino:
         class: JuegoPostas\AppBundle\Admin\CaminoAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Camino", label: "Camino", show_in_dashboard: true }
+            - { name: sonata.admin, manager_type: orm, label: "Camino" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Camino
@@ -54,22 +54,24 @@ services:
         calls:
             - [ setTranslationDomain, [JuegoPostasAppBundle]]
             - [ setTemplate, [edit, JuegoPostasAppBundle:CRUD:camino_edit.html.twig]]
-            
+    
+    #No se muestra en el dashboard. Ver config.yml.        
     sonata.admin.posta:
         class: JuegoPostas\AppBundle\Admin\PostaAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Camino", label: "Posta", show_in_dashboard: false }
+            - { name: sonata.admin, manager_type: orm, label: "Posta" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Posta
             - ~
         calls:
             - [ setTranslationDomain, [JuegoPostasAppBundle]]
-            
+    
+    #No se muestra en el dashboard. Ver config.yml.        
     sonata.admin.poi:
         class: JuegoPostas\AppBundle\Admin\PoiAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Camino", label: "Poi", show_in_dashboard: false }
+            - { name: sonata.admin, manager_type: orm, label: "Poi" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Poi
@@ -80,7 +82,7 @@ services:
     sonata.admin.consigna:
         class: JuegoPostas\AppBundle\Admin\ConsignaAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Consignas", label: "Consigna" }
+            - { name: sonata.admin, manager_type: orm, label: "Consigna" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Consigna
@@ -91,7 +93,7 @@ services:
     sonata.admin.piezaarecolectar:
         class: JuegoPostas\AppBundle\Admin\PiezaARecolectarAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Consignas", label: "Pieza a recolectar" }
+            - { name: sonata.admin, manager_type: orm, label: "Pieza a recolectar" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\PiezaARecolectar
@@ -102,7 +104,7 @@ services:
     sonata.admin.decision:
         class: JuegoPostas\AppBundle\Admin\DecisionAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Consultas", label: "Decision" }
+            - { name: sonata.admin, manager_type: orm, label: "Decision" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Decision
@@ -113,7 +115,7 @@ services:
     sonata.admin.consulta:
         class: JuegoPostas\AppBundle\Admin\ConsultaAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Consultas", label: "Consulta" }
+            - { name: sonata.admin, manager_type: orm, label: "Consulta" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Consulta
@@ -124,29 +126,18 @@ services:
     sonata.admin.respuesta:
         class: JuegoPostas\AppBundle\Admin\RespuestaAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Consultas", label: "Respuesta" }
+            - { name: sonata.admin, manager_type: orm, label: "Respuesta" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Respuesta
             - ~
         calls:
             - [ setTranslationDomain, [JuegoPostasAppBundle]]
-            
-#    sonata.admin.usuario:
-#        class: JuegoPostas\AppBundle\Admin\UsuarioAdmin
-#        tags:
-#            - { name: sonata.admin, manager_type: orm, group: "Usuarios", label: "Usuario" }
-#        arguments:
-#            - ~
-#            - JuegoPostas\AppBundle\Entity\Usuario
-#            - ~
-#        calls:
-#            - [ setTranslationDomain, [JuegoPostasAppBundle]]
 
     sonata.admin.user:
         class: Sonata\UserBundle\Admin\Entity\UserAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: Usuarios, label: Usuario, label_translator_strategy: sonata.admin.label.strategy.underscore }
+            - { name: sonata.admin, manager_type: orm, label_translator_strategy: sonata.admin.label.strategy.underscore }
         arguments:
             - null
             - Application\Sonata\UserBundle\Entity\User
@@ -157,7 +148,7 @@ services:
     sonata.admin.estrategia:
         class: JuegoPostas\AppBundle\Admin\EstrategiaAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Estrategia", label: "Estrategia" }
+            - { name: sonata.admin, manager_type: orm, label: "Estrategia" }
         arguments:
             - ~
             - JuegoPostas\AppBundle\Entity\Estrategia

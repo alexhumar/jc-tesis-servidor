@@ -104,17 +104,58 @@ sonata_admin:
         layout: JuegoPostasAppBundle::standard_layout.html.twig
     dashboard:
         blocks:
-            # display two dashboard blocks
+            # display three dashboard blocks
             -
                 position: left
                 type: sonata.admin.block.admin_list
                 settings:
-                    groups: [sonata_user, Grupos de Juego, Camino]
+                    groups: [camino, consignas]
+            -
+                position: center
+                type: sonata.admin.block.admin_list
+                settings:
+                    groups: [consultas, estrategia]
             -
                 position: right
                 type: sonata.admin.block.admin_list
                 settings:
-                    groups: [Consignas, Consultas, Estrategia]
+                    groups: [grupos_de_juego, sonata_user]
+
+        groups:
+            camino:
+                label: Camino
+                items:
+                    - sonata.admin.camino
+                roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ]
+            consignas:
+                label: Consignas
+                items:
+                    - sonata.admin.consigna
+                    - sonata.admin.piezaarecolectar
+                roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ]
+            consultas:
+                label: Consultas
+                items:
+                    - sonata.admin.decision
+                    - sonata.admin.consulta
+                    - sonata.admin.respuesta
+                roles: [ ROLE_SUPER_ADMIN ]
+            estrategia:
+                label: Estrategia
+                items:
+                    - sonata.admin.estrategia
+                roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ]
+            grupos_de_juego:
+                label: Grupos de Juego
+                items:
+                    - sonata.admin.grupo
+                    - sonata.admin.subgrupo
+                    - sonata.admin.estadosubgrupo
+                    - sonata.admin.participante
+                roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ]
+            sonata_user:
+                label: Usuario
+                roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ]
                     
 sonata_user:
     security_acl: false
