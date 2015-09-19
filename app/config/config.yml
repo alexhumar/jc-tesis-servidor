@@ -109,12 +109,12 @@ sonata_admin:
                 position: left
                 type: sonata.admin.block.admin_list
                 settings:
-                    groups: [camino, consignas]
+                    groups: [caminos, consignas]
             -
                 position: center
                 type: sonata.admin.block.admin_list
                 settings:
-                    groups: [consultas, estrategia]
+                    groups: [consultas, estrategias]
             -
                 position: right
                 type: sonata.admin.block.admin_list
@@ -122,8 +122,8 @@ sonata_admin:
                     groups: [grupos_de_juego, sonata_user]
 
         groups:
-            camino:
-                label: Camino
+            caminos:
+                label: Caminos
                 items:
                     - sonata.admin.camino
                 roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ]
@@ -140,8 +140,8 @@ sonata_admin:
                     - sonata.admin.consulta
                     - sonata.admin.respuesta
                 roles: [ ROLE_SUPER_ADMIN ]
-            estrategia:
-                label: Estrategia
+            estrategias:
+                label: Estrategias
                 items:
                     - sonata.admin.estrategia
                 roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ]
@@ -154,7 +154,7 @@ sonata_admin:
                     - sonata.admin.participante
                 roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ]
             sonata_user:
-                label: Usuario
+                label: Usuarios
                 roles: [ ROLE_ADMIN, ROLE_SUPER_ADMIN ]
                     
 sonata_user:
