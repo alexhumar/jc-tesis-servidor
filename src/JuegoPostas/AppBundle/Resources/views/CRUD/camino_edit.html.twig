@@ -1,5 +1,12 @@
 {% extends 'SonataAdminBundle:CRUD:base_edit.html.twig' %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	{% if admin.id(object) is not null %} {# Incluye el borde a los forms unicamente en la edicion de camino #}
+	    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+	{% endif %}
+{% endblock %}
+
 {% block formactions %}
                 <div class="well well-small form-actions">
                     {% if app.request.isxmlhttprequest %}
