@@ -36,6 +36,8 @@ class PiezaARecolectarAdmin extends Admin
     {
         $datagridMapper
             ->add('nombre')
+            ->add('descripcion')
+            ->add('cumpleConsigna')
         ;
     }
 
@@ -44,6 +46,8 @@ class PiezaARecolectarAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('nombre')
+            ->add('descripcion')
+            ->add('cumpleConsigna')
         ;
     }
 }

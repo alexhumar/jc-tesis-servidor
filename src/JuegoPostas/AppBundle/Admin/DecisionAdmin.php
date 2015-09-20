@@ -31,6 +31,7 @@ class DecisionAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('cumpleConsigna')
             ->add('justificacion')
         ;
     }
@@ -39,6 +40,7 @@ class DecisionAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->add('cumpleConsigna')
             ->addIdentifier('justificacion')
         ;
     }

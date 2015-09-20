@@ -44,6 +44,7 @@ class ConsignaAdmin extends Admin
     {
         $datagridMapper
             ->add('nombre')
+            ->add('descripcion')
         ;
     }
 
@@ -52,6 +53,7 @@ class ConsignaAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('nombre')
+            ->add('descripcion')
         ;
     }
 }

@@ -26,6 +26,7 @@ class EstrategiaAdmin extends Admin
     {
         $datagridMapper
             ->add('nombre')
+            ->add('descripcion')
         ;
     }
 

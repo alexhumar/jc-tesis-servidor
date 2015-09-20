@@ -16,8 +16,8 @@ class ConsultaAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-			->add('decisionParcial')
-			->add('posta')
+			->add('decisionParcial', null, array('required' => true))
+			->add('posta', null, array('required' => true))
         ;
     }
 
@@ -25,6 +25,7 @@ class ConsultaAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('decisionParcial')
             ->add('posta')
         ;
     }
@@ -33,8 +34,14 @@ class ConsultaAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('decisionParcial')
-			->add('posta')
+            ->add('decisionParcial.cumpleConsigna', null, array('label' => 'Cumple la consigna'))
+            ->add('decisionParcial.justificacion',  null, array('label' => 'Justificacion'))
+			->add('posta.nombre',  null, array('label' => 'Posta'))
+			->add('_action', 'actions', array(
+					'actions' => array(
+							'edit' => array(),
+					)
+			))
         ;
     }
 }
