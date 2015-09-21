@@ -27,16 +27,23 @@ class ConsignaAdmin extends Admin
 	
     // Campos que deben mostrarse en los forms de creacion/edicion
     protected function configureFormFields(FormMapper $formMapper)
-    {
+    {	
+    	$consigna = $this->getSubject();
         $formMapper
             ->add('nombre')
-            ->add('descripcion', 'text', array('label' => 'Descripcion'))
-			->add('piezasARecolectar', 'sonata_type_model',
-            array(
-                'multiple' => true,
-				'by_reference'=>false)
-            )
-        ;
+            ->add('descripcion', 'text', array('label' => 'Descripcion'));
+        /*Si esta en edicion, las piezas a recolectar unicamente las muestra, ya que se cargan automaticamente con el camino*/
+        if (!$consigna->isNew()) {
+          	$formMapper
+		        ->add('piezasARecolectar', /*'sonata_type_model'*/null,
+                       	array(
+                           	'multiple' => true,
+			            	//'by_reference'=>false,
+                       		'read_only' => true,
+                       		'disabled' => true            		
+                       	)
+                );
+        }
     }
 
     // Campos que deben mostrarse en los forms de filtro

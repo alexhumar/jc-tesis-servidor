@@ -149,6 +149,10 @@ class Consigna {
 		return $this->getDescripcion ();
 	}
 	
+	public function isNew(){
+		return ($this->getId() == null);
+	}
+	
 	/*
 	 * Metodo toArray
 	 *
