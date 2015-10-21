@@ -71,27 +71,35 @@ class JuCoServices extends ContainerAware {
 	}
 	
 	/**
-	 * Retorna el punto inicial del subgrupo que se recibe como parametro.
+	 * Retorna el punto inicial y el punto siguiente del subgrupo que se recibe como parametro.
 	 * @Soap\Method("getPuntoInicial")
 	 * @Soap\Param("idSubgrupo", phpType = "int")
-	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\PoiWS")
+	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\PoiWS[]")
 	 */
 	public function getPuntoInicial($idSubgrupo) {
 		//Probado
+		$idxPostaSubgrupo = 0;
+		$idxPostaSiguiente = 1;
+		
 		$subgrupoRepo = $this->getSubgrupoRepo();
-		$subgrupo = $subgrupoRepo->find($idSubgrupo);
-		$poiWS = new PoiWS(-1, -1, -1);
-		if ($subgrupo) {
-			$posta = $this->getPostaRepo()->getPostaDeSubgrupo($subgrupo);
-			if ($posta) {
-				$poi = $posta->getPoi();
-				if ($poi) {
-					$poiWS = new PoiWS($poi->getId(), $poi->getCoordenadaX(), $poi->getCoordenadaY());
+		//Aca se va a guardar el POI inicial del subgrupo
+		$poisWS[$idxPostaSubgrupo] = new PoiWS(-1, -1, -1);
+		//Aca se va a guardar el POI siguiente del subgrupo
+		$poisWS[$idxPostaSiguiente] = new PoiWS(-1, -1, -1);
+		if ($subgrupo = $subgrupoRepo->find($idSubgrupo)) {
+			if ($posta = $this->getPostaRepo()->getPostaDeSubgrupo($subgrupo)) {
+				if ($poi = $posta->getPoi()) {
+					$poisWS[$idxPostaSubgrupo] = new PoiWS($poi->getId(), $poi->getCoordenadaX(), $poi->getCoordenadaY());
+					if ($postaSiguiente = $posta->getPostaSiguiente()) {
+						if ($poi = $postaSiguiente->getPoi()) {
+							$poisWS[$idxPostaSiguiente] = new PoiWS($poi->getId(), $poi->getCoordenadaX(), $poi->getCoordenadaY());
+						}
+					}
 				}
 			}
 		}
 		
-		return $poiWS;
+		return $poisWS;
 	}
 	
 	/**
