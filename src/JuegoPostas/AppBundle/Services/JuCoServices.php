@@ -413,11 +413,11 @@ class JuCoServices extends ContainerAware {
 	
 	/**
 	 * Retorna 1 si el subgrupo es el primero de su camino. 0 caso contrario.
-	 * @Soap\Method("esPrimeroSubgrupo")
+	 * @Soap\Method("esPrimerSubgrupo")
 	 * @Soap\Param("idSubgrupo", phpType = "int")
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
 	 */
-	public function esPrimeroSubgrupo($idSubgrupo) {
+	public function esPrimerSubgrupo($idSubgrupo) {
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupo = $subgrupoRepo->find($idSubgrupo);
 		$resultado = 0;
