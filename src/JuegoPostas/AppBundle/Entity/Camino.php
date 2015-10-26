@@ -35,6 +35,12 @@ class Camino {
 	private $primerPosta;
 	
 	/**
+	 *
+	 * @var integer @ORM\Column(name="idPostaActual", type="integer", nullable=false)
+	 */
+	private $idPostaActual;
+	
+	/**
 	 * @var \JuegoPostas\AppBundle\Entity\Grupo @ORM\OneToOne(targetEntity="JuegoPostas\AppBundle\Entity\Grupo", mappedBy="camino")
 	 **/
 	private $grupo;
@@ -111,6 +117,27 @@ class Camino {
 	public function getGrupo()
 	{
 		return $this->grupo;
+	}
+	
+	/**
+	 * Set descripcion
+	 *
+	 * @param int $idPostaActual
+	 * @return Camino
+	 */
+	public function setIdPostaActual($idPostaActual) {
+		$this->idPostaActual = $idPostaActual;
+	
+		return $this;
+	}
+	
+	/**
+	 * Get idPostaActual
+	 *
+	 * @return int
+	 */
+	public function getIdPostaActual() {
+		return $this->idPostaActual;
 	}
 	
 	/**

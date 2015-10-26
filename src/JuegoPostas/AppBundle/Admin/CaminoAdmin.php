@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Validator\ErrorElement;
 
 use JuegoPostas\AppBundle\Entity\Posta;
 use JuegoPostas\AppBundle\Entity\Poi;
+
 use Sonata\AdminBundle\Tests\DependencyInjection\Post;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -21,6 +22,10 @@ class CaminoAdmin extends Admin
 	
 	protected $baseRouteName = 'sonata_camino';
 	
+	public function prePersist($camino){
+		$camino->setIdPostaActual(0);
+	}
+	
 	public function preUpdate($camino){
 		$grupo = $camino->getGrupo();
 		$posta = $camino->getPrimerPosta();
@@ -29,7 +34,15 @@ class CaminoAdmin extends Admin
 			$posta->getPoi()->getPiezaARecolectar()->setConsigna($grupo->getConsigna());
 			$posta = $posta->getPostaSiguiente();
 		}
-		
+	}
+	
+	public function postUpdate($camino){
+		if ($camino->getIdPostaActual() == 0) {
+			$camino->setIdPostaActual($camino->getPrimerPosta()->getId());
+			$em = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.entity_manager');
+			$em->persist($camino);
+			$em->flush();
+		}
 	}
 	
 	// Metodo para validaciones especificas
