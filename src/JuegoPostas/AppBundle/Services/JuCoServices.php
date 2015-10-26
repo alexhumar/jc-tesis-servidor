@@ -432,4 +432,56 @@ class JuCoServices extends ContainerAware {
 			
 		return new IntegerWS($resultado);
 	}
+	
+	/**
+	 * Retorna 1 si el subgrupo es el actual de su camino. 0 caso contrario.
+	 * @Soap\Method("esSubgrupoActual")
+	 * @Soap\Param("idSubgrupo", phpType = "int")
+	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
+	 */
+	public function esSubgrupoActual($idSubgrupo) {
+		$subgrupoRepo = $this->getSubgrupoRepo();
+		$subgrupo = $subgrupoRepo->find($idSubgrupo);
+		$resultado = 0;
+		if($subgrupo) {
+			if ($camino = $subgrupo->getGrupo()->getCamino()){
+				if ($idPosta = $camino->getidPostaActual()){
+					if ($posta = $this->getPostaRepo()->find($idPosta)){
+						$resultado = ($posta->getSubgrupo()->getId() == $idSubgrupo) ? 1 : 0;
+					}
+				}
+			}
+				
+		}
+			
+		return new IntegerWS($resultado);
+	}
+	
+	/**
+	 * Setea como posta actual la posta siguiente a la del subgrupo que se recibe como parametro. Retorna 1 si existe, 0 si es el subgrupo final.
+	 * @Soap\Method("setPostaActual")
+	 * @Soap\Param("idSubgrupo", phpType = "int")
+	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
+	 */
+	public function setPostaActual($idSubgrupo) {
+		$subgrupoRepo = $this->getSubgrupoRepo();
+		$subgrupo = $subgrupoRepo->find($idSubgrupo);
+		$resultado = 0;
+		if($subgrupo) {
+			if ($posta = $this->getPostaRepo()->getPostaDeSubgrupo($subgrupo)){
+				if($camino = $subgrupo->getGrupo()->getCamino()){
+					if ($postaSiguiente = $posta->getPostaSiguiente()){
+						$idPostaSiguiente = $postaSiguiente->getId();
+						$resultado = 1;
+					}else{
+						$idPostaSiguiente = $camino->getPrimerPosta()->getId();
+					}
+					$camino->setIdPostaActual($idPostaSiguiente);
+					$this->getReposManager()->getEntityManager()->flush();
+				}
+			}
+		}
+			
+		return new IntegerWS($resultado);
+	}
 }
