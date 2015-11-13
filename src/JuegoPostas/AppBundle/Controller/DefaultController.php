@@ -10,11 +10,11 @@ class DefaultController extends Controller
     public function indexAction($name)
     {
     	try {
-    		//$jcs = $this->get('web_services');
-    		//$response = $jcs->guardarRespuesta(3,6,0,"Porque no sabes nada");
-    		//$response = $jcs->esperarEstadoSubgrupos(1);
-    		//$response = $jcs->esperarEstadoSubgrupos(4, null);
-    		//var_dump($response);die;
+//     		$jcs = $this->get('web_services');
+//     		$response = $jcs->guardarRespuesta(3,6,0,"Porque no sabes nada");
+//     		$response = $jcs->esperarEstadoSubgrupos(1);
+//     		$response = $jcs->esperarEstadoSubgrupos(2, 7);
+//     		var_dump($response);die;
     		
     		
     		$serviceUri = $this->container->getParameter("wsdl_uri");
@@ -26,7 +26,7 @@ class DefaultController extends Controller
     		//$response = $client->cambiarEstadoSubgrupo(5,2);
     		//$response = $client->tomarDecision(1,0,"Porque plantea algo distinto",1);
     		//$response = $client->finJuegoSubgrupo(1);
-    		//$response = $client->esperarEstadoSubgrupos(1, 4);
+    		$response = $client->esperarEstadoSubgrupos(794, 951);
     		//$response = $client->esperarEstadoFinal();
     		//$response = $client->existePreguntaSinResponder(5);
     		//$response = $client->existenRespuestas(4);

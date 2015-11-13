@@ -22,12 +22,12 @@ class JuCoServices extends ContainerAware {
 
 	const ESTADO_FINAL = 4;
 	
-	//private $reposManager;
+// 	private $reposManager;
 	
 	private function getReposManager()
 	{
 		return $this->container->get('repos_manager');
-		//return $this->reposManager;
+// 		return $this->reposManager;
 	}
 	
 	private function getSubgrupoRepo() {
@@ -232,19 +232,19 @@ class JuCoServices extends ContainerAware {
 	 * Retorna 1 si todos los subgrupos del grupo llegaron al estado pasado como parametro. 0 caso contrario.
 	 * @Soap\Method("esperarEstadoSubgrupos")
 	 * @Soap\Param("idEstado", phpType = "int")
-	 * @Soap\Param("idGrupo", phpType = "int")
+	 * @Soap\Param("idSubgrupo", phpType = "int")
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
 	 */
-	public function esperarEstadoSubgrupos($idEstado, $idGrupo) {
+	public function esperarEstadoSubgrupos($idEstado, $idSubgrupo) {
 		//Probado
 		$estadoSubgrupoRepo = $this->getEstadoSubgrupoRepo();
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$grupoRepo = $this->getGrupoRepo();
 		
 		$estadoSubgrupo = $estadoSubgrupoRepo->find($idEstado);
-		$grupo = ($idGrupo) ? $grupoRepo->find($idGrupo) : null;
+		$grupo = ($idSubgrupo && ($subgrupo = $subgrupoRepo->find($idSubgrupo))) ? $subgrupo->getGrupo() : null;
 		$resultado = -1;
-		if ($estadoSubgrupo && (($idGrupo != null && $grupo != null) || ($idGrupo == null))) {
+		if ($estadoSubgrupo && (($idSubgrupo != null && $grupo != null) || ($idSubgrupo == null))) {
 			//Si $subgrupo no es null, quiere decir que al menos un subgrupo no está en el estado pasado como parametro.
 			$subgrupo = $subgrupoRepo->subgrupoEnEstadoDistintoDe($estadoSubgrupo, $grupo);
 			$subgrupo ? $resultado = 0 : $resultado = 1;
