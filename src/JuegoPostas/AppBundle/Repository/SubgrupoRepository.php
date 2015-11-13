@@ -36,14 +36,20 @@ class SubgrupoRepository extends EntityRepository
 	 * Retorna el primer subgrupo cuyo estado no sea igual al recibido como parametro
 	 * 
 	 * */
-	public function subgrupoEnEstadoDistintoDe($estadoSubgrupo) {		
+	public function subgrupoEnEstadoDistintoDe($estadoSubgrupo, $grupo = null) {		
 		try {
 			$qbSubgrupo = $this->createQueryBuilder('subgrupo');
 			
-			return $qbSubgrupo
-				->select('subgrupo')
+			$qbSubgrupo = $qbSubgrupo->select('subgrupo')
 				->join('subgrupo.estado', 'estado')
-				->where($qbSubgrupo->expr()->neq('estado', ':estado'))
+				->where($qbSubgrupo->expr()->neq('estado', ':estado'));
+			
+			if($grupo) {
+				$qbSubgrupo = $qbSubgrupo->andWhere($qbSubgrupo->expr()->eq('subgrupo.grupo', ':grupo'))
+				->setParameter('grupo', $grupo);
+			}
+			
+			return $qbSubgrupo
 				->setParameter('estado', $estadoSubgrupo)
 				->getQuery()
 				->setMaxResults(1) //Para evitar que getSingleResult arroje una NoUniqueResultException en caso que haya mas de un resultado

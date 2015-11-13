@@ -19,6 +19,9 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 
 class JuCoServices extends ContainerAware {
 	
+
+	const ESTADO_FINAL = 4;
+	
 	//private $reposManager;
 	
 	private function getReposManager()
@@ -51,9 +54,9 @@ class JuCoServices extends ContainerAware {
 		return $this->getReposManager()->getGrupoRepo();
 	}
 	
-	/*public function __construct($reposManager) {
-		$this->reposManager = $reposManager;
-	}*/
+// 	public function __construct($reposManager) {
+// 		$this->reposManager = $reposManager;
+// 	}
 	
 	/**
 	 * Metodo de logueo al sistema cliente mediante el nombre de subgrupo.
@@ -226,25 +229,42 @@ class JuCoServices extends ContainerAware {
 	}
 	
 	/**
-	 * Retorna 1 si todos los subgrupos llegaron al estado pasado como parametro. 0 caso contrario.
+	 * Retorna 1 si todos los subgrupos del grupo llegaron al estado pasado como parametro. 0 caso contrario.
 	 * @Soap\Method("esperarEstadoSubgrupos")
 	 * @Soap\Param("idEstado", phpType = "int")
+	 * @Soap\Param("idGrupo", phpType = "int")
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
 	 */
-	public function esperarEstadoSubgrupos($idEstado) {
+	public function esperarEstadoSubgrupos($idEstado, $idGrupo) {
 		//Probado
 		$estadoSubgrupoRepo = $this->getEstadoSubgrupoRepo();
 		$subgrupoRepo = $this->getSubgrupoRepo();
+		$grupoRepo = $this->getGrupoRepo();
+		
 		$estadoSubgrupo = $estadoSubgrupoRepo->find($idEstado);
+		$grupo = ($idGrupo) ? $grupoRepo->find($idGrupo) : null;
 		$resultado = -1;
-		if ($estadoSubgrupo) {
+		if ($estadoSubgrupo && (($idGrupo != null && $grupo != null) || ($idGrupo == null))) {
 			//Si $subgrupo no es null, quiere decir que al menos un subgrupo no está en el estado pasado como parametro.
-			$subgrupo = $subgrupoRepo->subgrupoEnEstadoDistintoDe($estadoSubgrupo);
+			$subgrupo = $subgrupoRepo->subgrupoEnEstadoDistintoDe($estadoSubgrupo, $grupo);
 			$subgrupo ? $resultado = 0 : $resultado = 1;
 		}
 			
 		return new IntegerWS($resultado);
 	}
+	
+	/**
+	 * Retorna 1 si todos los subgrupos llegaron al estado final. 0 caso contrario.
+	 * @Soap\Method("esperarEstadoFinal")
+	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
+	 */
+	public function esperarEstadoFinal() {
+		//Probado
+		
+		return $this->esperarEstadoSubgrupos(self::ESTADO_FINAL, null);
+	}
+	
+	
 	
 	/**
 	 * Retorna una sola consulta sin responder que no sea del subgrupo pasado como parametro, pero que esta en su mismo grupo.
