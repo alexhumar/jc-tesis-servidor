@@ -27,7 +27,7 @@ class ResultadoWS {
 	private $nombrePieza;
 	
 	/**
-	 * @Soap\ComplexType("boolean")
+	 * @Soap\ComplexType("int")
 	 */
 	private $decisionFinalCumple;
 	

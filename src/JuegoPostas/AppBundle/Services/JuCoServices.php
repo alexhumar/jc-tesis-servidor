@@ -417,7 +417,7 @@ class JuCoServices extends ContainerAware {
 										$grupo->getNombre(),
 										$subgrupo->getId(),
 										$pieza->getNombre(),
-										$decisionFinal->getCumpleConsigna(),
+										($decisionFinal->getCumpleConsigna()) ? 1 : 0, //Indica si respondio que Si (1) o que No (2)
 										$decisionCorrecta //Indica si lo que respondio el subgrupo esta bien (1) o mal (0)
 								);
 								$resultados[] = $resultado;
