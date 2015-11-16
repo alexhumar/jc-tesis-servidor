@@ -39,8 +39,17 @@ class PoiAdmin extends Admin
     		//Busco la posta que contenga al POI del formulario actual
     		for ($i=1 ; $i<$countPostas ; $i++) $posta=$posta->getPostaSiguiente();
     		
-    		$piezaPredefinida = $posta->getPoi()->getPiezaARecolectar();
+    		$piezaPredefinida = $posta ? $posta->getPoi()->getPiezaARecolectar() : null;
     	}
+    	
+    	$dataLat = self::__DEFAULT_LAT;
+    	$dataLong = self::__DEFAULT_LNG;
+    	
+    	if($posta != null){
+    		$dataLat = $posta->getPoi()->getCoordenadaX();
+    		$dataLong = $posta->getPoi()->getCoordenadaY();
+    	}
+    	
         $formMapper
         	->add('latlng', 'oh_google_maps', array(
     			'map_width'      => 1200,     // the width of the map
@@ -48,15 +57,18 @@ class PoiAdmin extends Admin
 			    'default_lat'    => self::__DEFAULT_LAT,    // the starting position on the map
 			    'default_lng'    => self::__DEFAULT_LNG, // the starting position on the map
 			    'label'   => false,
-			    'lat_options' => array('label'=>'Latitud', 'data'=>self::__DEFAULT_LAT),
-			    'lng_options' => array('label'=>'Longitud', 'data'=>self::__DEFAULT_LNG)
+			    'lat_options' => array('label'=>'Latitud', 'data'=>$dataLat),
+			    'lng_options' => array('label'=>'Longitud', 'data'=>$dataLong)
 			))
             /*Alex - Dejo que sonata reconozca las coordenadas como float*/
             //->add('coordenadaX', null, array('label' => 'Coordenada X'))
             //->add('coordenadaY', null, array('label' => 'Coordenada Y'))
             
-            ->add('piezaARecolectar','sonata_type_model', array('query'=>$piezasRepo->piezasSinPoiQuery($piezaPredefinida)))
         ;
+        if ($piezaPredefinida)
+        	$formMapper->add('piezaARecolectar','sonata_type_model', array('query'=>$piezasRepo->piezasSinPoiQuery($piezaPredefinida)));
+        else
+        	$formMapper->add('piezaARecolectar','sonata_type_model');
     }
 
     // Campos que deben mostrarse en los forms de filtro
