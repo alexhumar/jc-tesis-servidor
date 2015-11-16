@@ -169,6 +169,7 @@ class JuCoServices extends ContainerAware {
 	public function tomarDecision($idSubgrupo, $cumple, $justificacion, $decisionFinal) {
 		//Probado
 		$subgrupoRepo = $this->getSubgrupoRepo();
+		$consultaRepo = $this->getConsultaRepo();
 		$subgrupo = $subgrupoRepo->find($idSubgrupo);
 		$resultado = -1;
 			
@@ -190,11 +191,15 @@ class JuCoServices extends ContainerAware {
 						$em->flush();
 					}
 				} else {
-					$consulta = new Consulta();
-					$consulta->setPosta($posta);
-					$consulta->setDecisionParcial($decision);
-					$em->persist($consulta);
-					$em->flush();
+					//No dejo crear dos consultas para la misma posta en la base de datos.
+					if(!$consultaRepo->findBy(array('posta' => $posta))){
+						$consulta = new Consulta();
+						$consulta->setPosta($posta);
+						$consulta->setDecisionParcial($decision);
+						$em->persist($consulta);
+						$em->flush();
+					}
+					
 				}
 				
 				$resultado = $idSubgrupo;

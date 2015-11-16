@@ -14,6 +14,9 @@ class DefaultController extends Controller
 //     		$response = $jcs->guardarRespuesta(3,6,0,"Porque no sabes nada");
 //     		$response = $jcs->esperarEstadoSubgrupos(1);
 //     		$response = $jcs->esperarEstadoSubgrupos(2, 7);
+//     		$response = $jcs->existenRespuestas(11);
+// 			$response = $jcs->guardarRespuesta(3, 11, 0, 'sdf');
+// 			$response = $jcs->tomarDecision(11, 1, "sd", 0);
 //     		var_dump($response);die;
     		
     		
@@ -26,10 +29,10 @@ class DefaultController extends Controller
     		//$response = $client->cambiarEstadoSubgrupo(5,2);
     		//$response = $client->tomarDecision(1,0,"Porque plantea algo distinto",1);
     		//$response = $client->finJuegoSubgrupo(1);
-    		$response = $client->esperarEstadoSubgrupos(794, 951);
+    		//$response = $client->esperarEstadoSubgrupos(794, 951);
     		//$response = $client->esperarEstadoFinal();
     		//$response = $client->existePreguntaSinResponder(5);
-    		//$response = $client->existenRespuestas(4);
+    		//$response = $client->existenRespuestas(11);
     		//$response = $client->guardarRespuesta(3,6,0,"Porque no sabes nada");
     		//$response = $client->getSubgrupos(1);
     		//$response = $client->getResultadoFinal(1);
