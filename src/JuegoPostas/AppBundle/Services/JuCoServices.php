@@ -131,31 +131,50 @@ class JuCoServices extends ContainerAware {
 	}
 	
 	/**
-	 * Cambia el estado del subgrupo que se recibe como parametro y retorna la consigna asociada.
+	 * Cambia el estado del subgrupo que se recibe como parametro.
 	 * @Soap\Method("cambiarEstadoSubgrupo")
 	 * @Soap\Param("idSubgrupo", phpType = "int")
 	 * @Soap\Param("idEstado", phpType = "int")
-	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\ConsignaWS")
+	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
 	 */
 	public function cambiarEstadoSubgrupo($idSubgrupo, $idEstado) {
 		//Probado
+		$resultado = 0;
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupo = $subgrupoRepo->find($idSubgrupo);
-		$consignaWS = new ConsignaWS(-1,"","","");
 		if ($subgrupo) {
 			$estadoSubgrupo = $this->getEstadoSubgrupoRepo()->find($idEstado);
 			if ($estadoSubgrupo) {
 				$subgrupo->setEstado($estadoSubgrupo);
 				$this->getReposManager()->getEntityManager()->flush();
-				//Tanto el grupo como la consigna deberian estar seteados. La comprobacion por null de cada uno no corresponderia.
-				$grupo = $subgrupo->getGrupo();
-				$consigna = $grupo->getConsigna();
-				$consignaWS = new ConsignaWS($consigna->getId(), $consigna->getNombre(), $consigna->getDescripcion(), $grupo->getNombre());
+				$resultado = 1;
 			}
 		}
 	
+		return new IntegerWS($resultado);
+	}
+	
+	/**
+	 * Retorna la consigna asociada al grupo del subgrupo.
+	 * @Soap\Method("getConsigna")
+	 * @Soap\Param("idSubgrupo", phpType = "int")
+	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\ConsignaWS")
+	 */
+	public function getConsigna($idSubgrupo) {
+		$subgrupoRepo = $this->getSubgrupoRepo();
+		$subgrupo = $subgrupoRepo->find($idSubgrupo);
+		$consignaWS = new ConsignaWS(-1,"","","");
+		
+		if ($subgrupo) {
+			//Tanto el grupo como la consigna deberian estar seteados. La comprobacion por null de cada uno no corresponderia.
+			$grupo = $subgrupo->getGrupo();
+			$consigna = $grupo->getConsigna();
+			$consignaWS = new ConsignaWS($consigna->getId(), $consigna->getNombre(), $consigna->getDescripcion(), $grupo->getNombre());
+		}
+		
 		return $consignaWS;
 	}
+	
 	
 	/**
 	 * Crea la decision final para la posta del subgrupo o la consulta asociada a la posta segun el contenido de $decisionFinal. Retorna idSubgrupo si todo salio bien, -1 caso contrario.
@@ -296,7 +315,7 @@ class JuCoServices extends ContainerAware {
 										$consulta->getId(), //Alex - MODIFICACION necesaria para que desde android se le pase el idConsulta al guardarRespuesta
 										$pieza->getNombre(),
 										$pieza->getDescripcion(),
-										$decisionParcial->getCumpleConsigna(),
+										($decisionParcial->getCumpleConsigna() ? 1 : 0),
 										$decisionParcial->getJustificacion(),
 										$idSubgrupo //Esto todavia no lo tengo super claro. A que subgrupo se refiere??
 								);
@@ -328,7 +347,7 @@ class JuCoServices extends ContainerAware {
 				foreach ($respuestasAConsulta as $respuesta) {
 					$respuestasResultado[] = new RespuestaWS(
 													$respuesta->getId(),
-													$respuesta->getAcuerdoPropuesta(),
+													$respuesta->getAcuerdoPropuesta() ? 1 : 0,
 													$respuesta->getJustificacion(),
 													$respuesta->getSubgrupoConsultado()->getId()
 											);
