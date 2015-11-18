@@ -135,7 +135,7 @@ class ResultadoWS {
 	/**
 	 * Set decisionFinalCumple
 	 *
-	 * @param boolean $decisionFinalCumple        	
+	 * @param int $decisionFinalCumple        	
 	 * @return ResultadoWS
 	 */
 	public function setDecisionFinalCumple($decisionFinalCumple) {
@@ -147,7 +147,7 @@ class ResultadoWS {
 	/**
 	 * Get decisionFinalCumple
 	 *
-	 * @return boolean
+	 * @return int
 	 */
 	public function getDecisionFinalCumple() {
 		return $this->decisionFinalCumple;

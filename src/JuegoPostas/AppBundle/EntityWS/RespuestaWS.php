@@ -12,7 +12,7 @@ class RespuestaWS {
 	private $id;
 	
 	/**
-	 * @Soap\ComplexType("boolean")
+	 * @Soap\ComplexType("int")
 	 */
 	private $acuerdoPropuesta;
 	
@@ -48,7 +48,7 @@ class RespuestaWS {
 	/**
 	 * Set acuerdoPropuesta
 	 *
-	 * @param boolean $acuerdoPropuesta        	
+	 * @param int $acuerdoPropuesta        	
 	 * @return RespuestaWS
 	 */
 	public function setAcuerdoPropuesta($acuerdoPropuesta) {
@@ -60,7 +60,7 @@ class RespuestaWS {
 	/**
 	 * Get acuerdoPropuesta
 	 *
-	 * @return boolean
+	 * @return int
 	 */
 	public function getAcuerdoPropuesta() {
 		return $this->acuerdoPropuesta;

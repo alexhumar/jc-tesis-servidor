@@ -22,7 +22,7 @@ class PreguntaWS {
 	private $descripcionPieza;
 	
 	/**
-	 * @Soap\ComplexType("boolean")
+	 * @Soap\ComplexType("int")
 	 */
 	private $cumple;
 	
@@ -102,7 +102,7 @@ class PreguntaWS {
 	/**
 	 * Set cumple
 	 *
-	 * @param boolean $cumple        	
+	 * @param int $cumple        	
 	 * @return PreguntaWS
 	 */
 	public function setCumple($cumple) {
@@ -114,7 +114,7 @@ class PreguntaWS {
 	/**
 	 * Get cumple
 	 *
-	 * @return boolean
+	 * @return int
 	 */
 	public function getCumple() {
 		return $this->cumple;
