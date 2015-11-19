@@ -14,7 +14,7 @@ class PiezaARecolectarRepository extends EntityRepository
 	 * @param JuegoPostasAppBundle\Entity\PiezaARecolectar $piezaPredefinida 
 	 * 
 	 * */
-	public function piezasSinPoiQuery($piezaPredefinida = null) {
+	public function piezasSinPoiQuery($piezaPredefinida = null, $consigna) {
 		$qbPiezaARecolectar = $this->createQueryBuilder('piezaarecolectar');
 		$qbPoi = $this->getEntityManager()->getRepository('JuegoPostasAppBundle:Poi')->createQueryBuilder('poi');
 	
@@ -26,9 +26,13 @@ class PiezaARecolectarRepository extends EntityRepository
 									->where($qbPoi->expr()->eq('poi.piezaARecolectar', 'piezaarecolectar.id'))
 									->getDQL()
 							))
-						);
+						)
+			->andWhere($qbPiezaARecolectar->expr()->eq('piezaarecolectar.consigna', ':idconsigna'))
+			->setParameter('idconsigna', $consigna->getId());
+		
 		if($piezaPredefinida)
-			$builder->orWhere($qbPiezaARecolectar->expr()->eq('piezaarecolectar.id', ':id'))->setParameter('id', $piezaPredefinida->getId());
+			$builder->orWhere($qbPiezaARecolectar->expr()->eq('piezaarecolectar.id', ':id'))
+			->setParameter('id', $piezaPredefinida->getId());
 			
 		return	$builder->getQuery();
 	}

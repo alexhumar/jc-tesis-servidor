@@ -60,15 +60,12 @@ class PoiAdmin extends Admin
 			    'lat_options' => array('label'=>'Latitud', 'data'=>$dataLat),
 			    'lng_options' => array('label'=>'Longitud', 'data'=>$dataLong)
 			))
+			->add('piezaARecolectar','sonata_type_model', array('query'=>$piezasRepo->piezasSinPoiQuery($piezaPredefinida, $camino->getGrupo()->getConsigna())))
             /*Alex - Dejo que sonata reconozca las coordenadas como float*/
             //->add('coordenadaX', null, array('label' => 'Coordenada X'))
             //->add('coordenadaY', null, array('label' => 'Coordenada Y'))
             
         ;
-        if ($piezaPredefinida)
-        	$formMapper->add('piezaARecolectar','sonata_type_model', array('query'=>$piezasRepo->piezasSinPoiQuery($piezaPredefinida)));
-        else
-        	$formMapper->add('piezaARecolectar','sonata_type_model');
     }
 
     // Campos que deben mostrarse en los forms de filtro
