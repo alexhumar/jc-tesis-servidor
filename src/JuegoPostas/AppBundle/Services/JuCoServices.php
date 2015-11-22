@@ -19,7 +19,6 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 
 class JuCoServices extends ContainerAware {
 	
-
 	const ESTADO_FINAL = 4;
 	
 // 	private $reposManager;
@@ -65,7 +64,6 @@ class JuCoServices extends ContainerAware {
      * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
 	 */
 	public function login($nombreSubgrupo) {
-		//Probado
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupo = $subgrupoRepo->findOneByNombre($nombreSubgrupo);
 		$subgrupo ? $estado = $subgrupo->getId() : $estado = -1;
@@ -80,10 +78,8 @@ class JuCoServices extends ContainerAware {
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\PoiWS[]")
 	 */
 	public function getPuntoInicial($idSubgrupo) {
-		//Probado
 		$idxPostaSubgrupo = 0;
 		$idxPostaSiguiente = 1;
-		
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		//Aca se va a guardar el POI inicial del subgrupo
 		$poisWS[$idxPostaSubgrupo] = new PoiWS(-1, -1, -1);
@@ -112,7 +108,6 @@ class JuCoServices extends ContainerAware {
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\PiezaWS")
 	 */
 	public function getPieza($idSubgrupo) {
-		//Probado
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupo = $subgrupoRepo->find($idSubgrupo);
 		$piezaWS = new PiezaWS(-1, "", "", new PoiWS(-1, -1, -1));
@@ -126,7 +121,7 @@ class JuCoServices extends ContainerAware {
 				}
 			}
 		}
-			
+		
 		return $piezaWS;
 	}
 	
@@ -138,7 +133,6 @@ class JuCoServices extends ContainerAware {
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
 	 */
 	public function cambiarEstadoSubgrupo($idSubgrupo, $idEstado) {
-		//Probado
 		$resultado = 0;
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupo = $subgrupoRepo->find($idSubgrupo);
@@ -150,7 +144,7 @@ class JuCoServices extends ContainerAware {
 				$resultado = 1;
 			}
 		}
-	
+		
 		return new IntegerWS($resultado);
 	}
 	
@@ -164,7 +158,6 @@ class JuCoServices extends ContainerAware {
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupo = $subgrupoRepo->find($idSubgrupo);
 		$consignaWS = new ConsignaWS(-1,"","","");
-		
 		if ($subgrupo) {
 			//Tanto el grupo como la consigna deberian estar seteados. La comprobacion por null de cada uno no corresponderia.
 			$grupo = $subgrupo->getGrupo();
@@ -174,7 +167,6 @@ class JuCoServices extends ContainerAware {
 		
 		return $consignaWS;
 	}
-	
 	
 	/**
 	 * Crea la decision final para la posta del subgrupo o la consulta asociada a la posta segun el contenido de $decisionFinal. Retorna idSubgrupo si todo salio bien, -1 caso contrario.
@@ -186,24 +178,20 @@ class JuCoServices extends ContainerAware {
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
 	 */
 	public function tomarDecision($idSubgrupo, $cumple, $justificacion, $decisionFinal) {
-		//Probado
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$consultaRepo = $this->getConsultaRepo();
 		$subgrupo = $subgrupoRepo->find($idSubgrupo);
-		$resultado = -1;
-			
+		$resultado = -1;		
 		if ($subgrupo) {
 			$posta = $this->getPostaRepo()->getPostaDeSubgrupo($subgrupo);
 			if ($posta) {
 				$esDecisionFinal = ($decisionFinal == 1);
-				$cumpleConsigna = ($cumple == 1);
-					
+				$cumpleConsigna = ($cumple == 1);				
 				$decision = new Decision();
 				$decision->setJustificacion($justificacion);
 				$decision->setCumpleConsigna($cumpleConsigna);
 				$em = $this->getReposManager()->getEntityManager();
-				$em->persist($decision);
-					
+				$em->persist($decision);					
 				if ($esDecisionFinal) {
 					if (!$posta->getDecisionFinal()) { //Si no se seteo la decision final previamente.
 						$posta->setDecisionFinal($decision);
@@ -217,38 +205,12 @@ class JuCoServices extends ContainerAware {
 						$consulta->setDecisionParcial($decision);
 						$em->persist($consulta);
 						$em->flush();
-					}
-					
-				}
-				
+					}					
+				}				
 				$resultado = $idSubgrupo;
 			}
 		}
-			
-		return new IntegerWS($resultado);
-	}
-	
-	/**
-	 * Retorna 1 si la posta asociada al subgrupo tiene seteada la decision final. 0 caso contrario.
-	 * @Soap\Method("finJuegoSubgrupo")
-	 * @Soap\Param("idSubgrupo", phpType = "int")
-	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
-	 */
-	public function finJuegoSubgrupo($idSubgrupo) {
-		//Alex - Estaria faltando chequear que el subgrupo haya activado al subgrupo siguiente, en caso que no sea el ultimo del camino.
-		//Podria, en caso que no sea el ultimo del camino (tenga posta siguiente), chequear que el subgrupo de esa posta este jugando. Quiere decir que lo activo.
-		//Habria que ver si ese razonamiento sirve.
-		$subgrupoRepo = $this->getSubgrupoRepo();
-		$subgrupo = $subgrupoRepo->find($idSubgrupo);
-		$resultado = 0;
-		if($subgrupo) {
-			$posta = $this->getPostaRepo()->getPostaDeSubgrupo($subgrupo);
-			if($posta) {
-				//Si esta seteada la decision final.
-				if ($posta->getDecisionFinal()) $resultado = 1;
-			}
-		}
-			
+		
 		return new IntegerWS($resultado);
 	}
 	
@@ -260,11 +222,9 @@ class JuCoServices extends ContainerAware {
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
 	 */
 	public function esperarEstadoSubgrupos($idEstado, $idSubgrupo) {
-		//Probado
 		$estadoSubgrupoRepo = $this->getEstadoSubgrupoRepo();
 		$subgrupoRepo = $this->getSubgrupoRepo();
-		$grupoRepo = $this->getGrupoRepo();
-		
+		$grupoRepo = $this->getGrupoRepo();	
 		$estadoSubgrupo = $estadoSubgrupoRepo->find($idEstado);
 		$grupo = ($idSubgrupo && ($subgrupo = $subgrupoRepo->find($idSubgrupo))) ? $subgrupo->getGrupo() : null;
 		$resultado = -1;
@@ -273,7 +233,7 @@ class JuCoServices extends ContainerAware {
 			$subgrupo = $subgrupoRepo->subgrupoEnEstadoDistintoDe($estadoSubgrupo, $grupo);
 			$subgrupo ? $resultado = 0 : $resultado = 1;
 		}
-			
+		
 		return new IntegerWS($resultado);
 	}
 	
@@ -283,12 +243,8 @@ class JuCoServices extends ContainerAware {
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
 	 */
 	public function esperarEstadoFinal() {
-		//Probado
-		
 		return $this->esperarEstadoSubgrupos(self::ESTADO_FINAL, null);
 	}
-	
-	
 	
 	/**
 	 * Retorna una sola consulta sin responder que no sea del subgrupo pasado como parametro, pero que esta en su mismo grupo.
@@ -297,7 +253,6 @@ class JuCoServices extends ContainerAware {
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\PreguntaWS")
 	 */
 	public function existePreguntaSinResponder($idSubgrupo) {
-		//Probado
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupo = $subgrupoRepo->find($idSubgrupo);
 		$pregunta = new PreguntaWS(-1, "","", false, "", -1);
@@ -312,12 +267,12 @@ class JuCoServices extends ContainerAware {
 								$pieza = $consulta->getPosta()->getPoi()->getPiezaARecolectar();
 								$decisionParcial = $consulta->getDecisionParcial();
 								$pregunta = new PreguntaWS(
-										$consulta->getId(), //Alex - MODIFICACION necesaria para que desde android se le pase el idConsulta al guardarRespuesta
+										$consulta->getId(), //Para que desde android se le pase el idConsulta al guardarRespuesta
 										$pieza->getNombre(),
 										$pieza->getDescripcion(),
 										($decisionParcial->getCumpleConsigna() ? 1 : 0),
 										$decisionParcial->getJustificacion(),
-										$idSubgrupo //Esto todavia no lo tengo super claro. A que subgrupo se refiere??
+										$idSubgrupo
 								);
 							}
 						}
@@ -325,7 +280,7 @@ class JuCoServices extends ContainerAware {
 				}
 			}
 		}
-			
+		
 		return $pregunta;
 	}
 	
@@ -336,7 +291,6 @@ class JuCoServices extends ContainerAware {
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\RespuestaWS[]")
 	 */
 	public function existenRespuestas($idSubgrupo) {
-		//Probado
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupo = $subgrupoRepo->find($idSubgrupo);
 		$respuestasResultado = array();
@@ -354,7 +308,7 @@ class JuCoServices extends ContainerAware {
 				}
 			}
 		}
-			
+		
 		return $respuestasResultado;
 	}
 	
@@ -368,8 +322,6 @@ class JuCoServices extends ContainerAware {
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
 	 */
 	public function guardarRespuesta($idConsulta, $idSubgrupoConsultado, $acuerdo, $justificacion) {
-		//Probado
-		//Pasarle el $idConsulta es algo que tenemos que agregar en Android.
 		$consultaRepo = $this->getConsultaRepo();
 		$consulta = $consultaRepo->find($idConsulta);
 		$subgrupoRepo = $this->getSubgrupoRepo();
@@ -387,7 +339,7 @@ class JuCoServices extends ContainerAware {
 			$em->flush();
 			$resultado = 1;
 		}
-			
+		
 		return new IntegerWS($resultado);
 	}
 	
@@ -398,7 +350,6 @@ class JuCoServices extends ContainerAware {
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\SubgrupoWS[]")
 	 */
 	public function getSubgrupos($idSubgrupo) {
-		//Probado
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$subgrupo = $subgrupoRepo->find($idSubgrupo);
 		$subgruposWS = array();
@@ -408,18 +359,16 @@ class JuCoServices extends ContainerAware {
 				$subgruposWS[] = new SubgrupoWS($s->getId(), $s->getNombre());
 			}
 		}
-	
+		
 		return $subgruposWS;
 	}
 	
 	/**
 	 * Retorna los resultados de cada subgrupo del juego respecto a su decision sobre la pieza asociada.
 	 * @Soap\Method("getResultadoFinal")
-	 * @Soap\Param("idSubgrupo", phpType = "int")
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\ResultadoWS[]")
 	 */
-	public function getResultadoFinal($idSubgrupo) { //Alex - chequear si eliminar o dejar el parametro
-		//Probado
+	public function getResultadoFinal() {
 		$grupoRepo = $this->getGrupoRepo();
 		$subgrupoRepo = $this->getSubgrupoRepo();
 		$postaRepo = $this->getPostaRepo();
@@ -451,30 +400,8 @@ class JuCoServices extends ContainerAware {
 				}
 			}
 		}
-			
+		
 		return $resultados;
-	}
-	
-	/**
-	 * Retorna 1 si el subgrupo es el primero de su camino. 0 caso contrario.
-	 * @Soap\Method("esPrimerSubgrupo")
-	 * @Soap\Param("idSubgrupo", phpType = "int")
-	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\IntegerWS")
-	 */
-	public function esPrimerSubgrupo($idSubgrupo) {
-		$subgrupoRepo = $this->getSubgrupoRepo();
-		$subgrupo = $subgrupoRepo->find($idSubgrupo);
-		$resultado = 0;
-		if($subgrupo) {
-			if ($camino = $subgrupo->getGrupo()->getCamino()){
-				if ($posta = $camino->getPrimerPosta()){
-					$resultado = ($posta->getSubgrupo()->getId() == $idSubgrupo) ? 1 : 0;
-				}
-			}
-					
-		}
-			
-		return new IntegerWS($resultado);
 	}
 	
 	/**
@@ -495,9 +422,8 @@ class JuCoServices extends ContainerAware {
 					}
 				}
 			}
-				
 		}
-			
+		
 		return new IntegerWS($resultado);
 	}
 	
@@ -525,7 +451,7 @@ class JuCoServices extends ContainerAware {
 				}
 			}
 		}
-			
+		
 		return new IntegerWS($resultado);
 	}
 }
