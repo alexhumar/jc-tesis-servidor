@@ -8,8 +8,8 @@ class ConsultaRepository extends EntityRepository
 {
 	
 	/**
-	 * Retorna, en caso de existir, una consulta sin respuesta que haya realizado un subgrupo distinto al
-	 * recibido como parametro, pero que sea del mismo grupo.
+	 * Retorna, en caso de existir, una consulta que no fue respondida por el subgrupo recibido como parametro y
+	 *  que haya realizado un subgrupo distinto al recibido como parametro, pero que sea del mismo grupo.
 	 * 
 	 * */
 	public function consultaSinRespuestaDeSubgrupoDistintoA($subgrupo) {
@@ -29,13 +29,19 @@ class ConsultaRepository extends EntityRepository
 									$qbRespuesta
 										->select('respuesta')
 										->join('respuesta.consulta', 'rspcons')
-										->where($qbRespuesta->expr()->eq('rspcons.id', 'consulta.id'))
+										->join('respuesta.subgrupoConsultado', 'rspsubgrupoc')
+										->where($qbRespuesta->expr()->andX(
+												    $qbRespuesta->expr()->eq('rspcons.id', 'consulta.id'),
+												    $qbRespuesta->expr()->eq('rspsubgrupoc', ':rspsubgrupoc')
+												)
+										  )
 										->getDQL()
 								))
 							)
 				))
 				->setParameter('subgrupo', $subgrupo)
 				->setParameter('grupo', $subgrupo->getGrupo())
+				->setParameter('rspsubgrupoc', $subgrupo)
 				->getQuery()
 				->setMaxResults(1)
 				->getSingleResult();

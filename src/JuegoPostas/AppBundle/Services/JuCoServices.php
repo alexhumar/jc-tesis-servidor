@@ -247,7 +247,7 @@ class JuCoServices extends ContainerAware {
 	}
 	
 	/**
-	 * Retorna una sola consulta sin responder que no sea del subgrupo pasado como parametro, pero que esta en su mismo grupo.
+	 * Retorna una sola consulta sin responder por y que no sea del subgrupo pasado como parametro, pero que esta en su mismo grupo.
 	 * @Soap\Method("existePreguntaSinResponder")
 	 * @Soap\Param("idSubgrupo", phpType = "int")
 	 * @Soap\Result(phpType = "JuegoPostas\AppBundle\EntityWS\PreguntaWS")
