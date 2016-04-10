@@ -27,13 +27,16 @@ class PiezaARecolectarRepository extends EntityRepository
 									->getDQL()
 							))
 						)
-			->andWhere($qbPiezaARecolectar->expr()->eq('piezaarecolectar.consigna', ':idconsigna'))
+			->andWhere($qbPiezaARecolectar->expr()->orX(
+					$qbPiezaARecolectar->expr()->eq('piezaarecolectar.consigna', ':idconsigna'),
+					$qbPiezaARecolectar->expr()->isNull('piezaarecolectar.consigna'))
+					)
 			->setParameter('idconsigna', $consigna->getId());
 		
 		if($piezaPredefinida)
 			$builder->orWhere($qbPiezaARecolectar->expr()->eq('piezaarecolectar.id', ':id'))
 			->setParameter('id', $piezaPredefinida->getId());
-			
+		
 		return	$builder->getQuery();
 	}
 	
